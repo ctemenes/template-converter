@@ -1,0 +1,246 @@
+{
+  "schemaVersion": "1.0",
+  "name": "02-overdue-account-reminder",
+  "source": {
+    "file": "02-overdue-account-reminder.docx",
+    "format": "docx"
+  },
+  "page": {
+    "size": "A4",
+    "orientation": "portrait",
+    "marginsMm": {
+      "top": 25.4,
+      "right": 20,
+      "bottom": 25.4,
+      "left": 20
+    }
+  },
+  "variables": [
+    {
+      "name": "date",
+      "type": "date",
+      "sourceNames": [
+        "Date"
+      ]
+    },
+    {
+      "name": "customerName",
+      "type": "string",
+      "sourceNames": [
+        "Customer Name"
+      ]
+    },
+    {
+      "name": "address",
+      "type": "string",
+      "sourceNames": [
+        "Address"
+      ]
+    },
+    {
+      "name": "accountNo",
+      "type": "string",
+      "sourceNames": [
+        "Account No"
+      ]
+    },
+    {
+      "name": "amountOverdue",
+      "type": "currency",
+      "sourceNames": [
+        "Amount Overdue"
+      ]
+    },
+    {
+      "name": "dueDate",
+      "type": "date",
+      "sourceNames": [
+        "Due Date"
+      ]
+    },
+    {
+      "name": "daysOverdue",
+      "type": "number",
+      "sourceNames": [],
+      "description": "Number of days the account is overdue, counted from the due date to the date of the letter."
+    },
+    {
+      "name": "onHardshipArrangement",
+      "type": "boolean",
+      "sourceNames": [],
+      "description": "True if the customer is on a hardship arrangement."
+    }
+  ],
+  "header": [],
+  "footer": [],
+  "blocks": [
+    {
+      "type": "paragraph",
+      "style": "Heading1",
+      "content": [
+        {
+          "text": "Overdue account reminder"
+        }
+      ]
+    },
+    {
+      "type": "paragraph",
+      "style": "Normal",
+      "content": [
+        {
+          "var": "date"
+        }
+      ]
+    },
+    {
+      "type": "paragraph",
+      "style": "Address",
+      "content": [
+        {
+          "var": "customerName"
+        }
+      ]
+    },
+    {
+      "type": "paragraph",
+      "style": "Address",
+      "content": [
+        {
+          "var": "address"
+        }
+      ]
+    },
+    {
+      "type": "paragraph",
+      "style": "Normal",
+      "content": [
+        {
+          "text": "Account number: ",
+          "bold": true
+        },
+        {
+          "var": "accountNo"
+        }
+      ]
+    },
+    {
+      "type": "paragraph",
+      "style": "Normal",
+      "content": [
+        {
+          "text": "Dear "
+        },
+        {
+          "var": "customerName"
+        },
+        {
+          "text": ","
+        }
+      ]
+    },
+    {
+      "type": "paragraph",
+      "style": "Normal",
+      "content": [
+        {
+          "text": "Our records show that $"
+        },
+        {
+          "var": "amountOverdue"
+        },
+        {
+          "text": " on your account was due on "
+        },
+        {
+          "var": "dueDate"
+        },
+        {
+          "text": " and has not been paid."
+        }
+      ]
+    },
+    {
+      "type": "conditional",
+      "when": {
+        "var": "daysOverdue",
+        "op": "gt",
+        "value": 60
+      },
+      "blocks": [
+        {
+          "type": "conditional",
+          "when": {
+            "var": "onHardshipArrangement",
+            "op": "isTrue"
+          },
+          "blocks": [
+            {
+              "type": "paragraph",
+              "style": "Normal",
+              "content": [
+                {
+                  "text": "We know you have a payment arrangement with us. This letter is a reminder only."
+                }
+              ]
+            }
+          ],
+          "else": [
+            {
+              "type": "paragraph",
+              "style": "Normal",
+              "content": [
+                {
+                  "text": "As your account is now seriously overdue, we may refer it to our collections team if payment is not received within 7 days."
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "paragraph",
+      "style": "Normal",
+      "content": [
+        {
+          "text": "You can pay online at northgate.example/pay or call us on 13 00 00."
+        }
+      ]
+    },
+    {
+      "type": "paragraph",
+      "style": "Normal",
+      "content": [
+        {
+          "text": "Regards,"
+        }
+      ]
+    },
+    {
+      "type": "paragraph",
+      "style": "Normal",
+      "content": [
+        {
+          "text": "Accounts Team",
+          "bold": true
+        }
+      ]
+    }
+  ],
+  "rules": [
+    {
+      "id": "R1",
+      "source": "Include the next paragraph only if the account is more than 60 days overdue",
+      "interpretation": "The collections paragraph is wrapped in a condition that daysOverdue is greater than 60, using a new daysOverdue variable.",
+      "resolution": "conditional",
+      "confidence": 0.9
+    },
+    {
+      "id": "R2",
+      "source": "If the customer is on a hardship arrangement, delete the paragraph above and insert: We know you have a payment arrangement with us. This letter is a reminder only.",
+      "interpretation": "Where the collections paragraph would appear (over 60 days overdue), a new onHardshipArrangement flag swaps it for the reminder-only wording; it is not shown for accounts 60 days or less overdue because there is no paragraph to replace.",
+      "resolution": "conditional",
+      "confidence": 0.75
+    }
+  ]
+}

@@ -1,0 +1,253 @@
+{
+  "schemaVersion": "1.0",
+  "name": "04-claim-outcome-letter",
+  "source": {
+    "file": "04-claim-outcome-letter.docx",
+    "format": "docx"
+  },
+  "page": {
+    "size": "A4",
+    "orientation": "portrait",
+    "marginsMm": {
+      "top": 25.4,
+      "right": 20,
+      "bottom": 25.4,
+      "left": 20
+    }
+  },
+  "variables": [
+    {
+      "name": "claimNumber",
+      "type": "string",
+      "sourceNames": [
+        "claim_number"
+      ]
+    },
+    {
+      "name": "date",
+      "type": "date",
+      "sourceNames": [
+        "DATE"
+      ]
+    },
+    {
+      "name": "customerFirstName",
+      "type": "string",
+      "sourceNames": [
+        "Customer First Name"
+      ]
+    },
+    {
+      "name": "lossType",
+      "type": "string",
+      "sourceNames": [
+        "loss_type"
+      ]
+    },
+    {
+      "name": "lossDate",
+      "type": "date",
+      "sourceNames": [
+        "loss_date"
+      ]
+    },
+    {
+      "name": "settlementAmount",
+      "type": "currency",
+      "sourceNames": [
+        "settlement_amount"
+      ]
+    },
+    {
+      "name": "excess",
+      "type": "currency",
+      "sourceNames": [
+        "excess"
+      ]
+    },
+    {
+      "name": "declineReason",
+      "type": "string",
+      "sourceNames": [
+        "decline_reason"
+      ]
+    },
+    {
+      "name": "consultantName",
+      "type": "string",
+      "sourceNames": [
+        "Consultant Name"
+      ]
+    },
+    {
+      "name": "consultantPhone",
+      "type": "string",
+      "sourceNames": [
+        "Consultant Phone"
+      ]
+    },
+    {
+      "name": "claimApproved",
+      "type": "boolean",
+      "sourceNames": [],
+      "description": "True if the claim was approved, false if it was declined."
+    }
+  ],
+  "header": [],
+  "footer": [],
+  "blocks": [
+    {
+      "type": "paragraph",
+      "style": "Heading1",
+      "content": [
+        {
+          "text": "Outcome of your claim "
+        },
+        {
+          "var": "claimNumber"
+        }
+      ]
+    },
+    {
+      "type": "paragraph",
+      "style": "Normal",
+      "content": [
+        {
+          "var": "date"
+        }
+      ]
+    },
+    {
+      "type": "paragraph",
+      "style": "Normal",
+      "content": [
+        {
+          "text": "Dear "
+        },
+        {
+          "var": "customerFirstName"
+        },
+        {
+          "text": ","
+        }
+      ]
+    },
+    {
+      "type": "paragraph",
+      "style": "Normal",
+      "content": [
+        {
+          "text": "We have finished assessing your claim for "
+        },
+        {
+          "var": "lossType"
+        },
+        {
+          "text": " on "
+        },
+        {
+          "var": "lossDate"
+        },
+        {
+          "text": "."
+        }
+      ]
+    },
+    {
+      "type": "conditional",
+      "when": {
+        "var": "claimApproved",
+        "op": "isTrue"
+      },
+      "blocks": [
+        {
+          "type": "paragraph",
+          "style": "Normal",
+          "content": [
+            {
+              "text": "We are pleased to confirm your claim has been approved. We will pay $"
+            },
+            {
+              "var": "settlementAmount"
+            },
+            {
+              "text": " to your nominated account within 5 business days, less your excess of $"
+            },
+            {
+              "var": "excess"
+            },
+            {
+              "text": "."
+            }
+          ]
+        }
+      ],
+      "else": [
+        {
+          "type": "paragraph",
+          "style": "Normal",
+          "content": [
+            {
+              "text": "Unfortunately we are unable to accept your claim. The reason is: "
+            },
+            {
+              "var": "declineReason"
+            },
+            {
+              "text": ". You can ask for a review of this decision within 30 days."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "paragraph",
+      "style": "Normal",
+      "content": [
+        {
+          "text": "Your claims consultant is "
+        },
+        {
+          "var": "consultantName"
+        },
+        {
+          "text": ", who you can reach on "
+        },
+        {
+          "var": "consultantPhone"
+        },
+        {
+          "text": "."
+        }
+      ]
+    },
+    {
+      "type": "paragraph",
+      "style": "Normal",
+      "content": [
+        {
+          "text": "Yours sincerely,"
+        }
+      ]
+    },
+    {
+      "type": "paragraph",
+      "style": "Normal",
+      "content": [
+        {
+          "text": "Claims Team",
+          "bold": true
+        }
+      ]
+    }
+  ],
+  "rules": [
+    {
+      "id": "R1",
+      "source": "Use paragraph A if the claim was approved, or paragraph B if it was declined",
+      "interpretation": "Paragraph A is shown when the new boolean claimApproved is true and paragraph B otherwise; the A. and B. labels and the instruction itself are removed.",
+      "resolution": "conditional",
+      "confidence": 0.9
+    }
+  ]
+}

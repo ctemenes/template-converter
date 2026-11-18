@@ -1,0 +1,578 @@
+{
+  "file": "05-welcome-letter.docx",
+  "status": "Converted",
+  "mapper": "llm:claude-sonnet-5-5",
+  "fidelity": 100,
+  "millis": 8459,
+  "error": null,
+  "scores": {
+    "wordsKept": 1,
+    "wordsNotInvented": 1,
+    "fieldsBound": 1,
+    "logicAccountedFor": 1,
+    "needsReview": 0
+  },
+  "findings": [],
+  "attempts": [
+    {
+      "number": 0,
+      "mapper": "rules",
+      "errors": 0,
+      "warnings": 1,
+      "fidelity": 100,
+      "millis": 1,
+      "inputTokens": null,
+      "outputTokens": null,
+      "errorMessages": []
+    },
+    {
+      "number": 1,
+      "mapper": "llm:claude-sonnet-5-5",
+      "errors": 0,
+      "warnings": 0,
+      "fidelity": 100,
+      "millis": 8457,
+      "inputTokens": 4121,
+      "outputTokens": 1527,
+      "errorMessages": []
+    }
+  ],
+  "counts": {
+    "variables": 8,
+    "rules": 1,
+    "blocks": 12
+  },
+  "template": {
+    "schemaVersion": "1.0",
+    "name": "05-welcome-letter",
+    "source": {
+      "file": "05-welcome-letter.docx",
+      "format": "docx"
+    },
+    "page": {
+      "size": "A4",
+      "orientation": "portrait",
+      "marginsMm": {
+        "top": 25.4,
+        "right": 20,
+        "bottom": 25.4,
+        "left": 20
+      }
+    },
+    "variables": [
+      {
+        "name": "firstName",
+        "type": "string",
+        "sourceNames": [
+          "First Name"
+        ]
+      },
+      {
+        "name": "product",
+        "type": "string",
+        "sourceNames": [
+          "Product"
+        ]
+      },
+      {
+        "name": "policyNo",
+        "type": "string",
+        "sourceNames": [
+          "Policy No"
+        ]
+      },
+      {
+        "name": "startDate",
+        "type": "date",
+        "sourceNames": [
+          "Start Date"
+        ]
+      },
+      {
+        "name": "instalmentAmount",
+        "type": "currency",
+        "sourceNames": [
+          "Instalment Amount"
+        ]
+      },
+      {
+        "name": "accountLast4",
+        "type": "string",
+        "sourceNames": [
+          "Account Last 4"
+        ]
+      },
+      {
+        "name": "debitDay",
+        "type": "number",
+        "sourceNames": [
+          "Debit Day"
+        ]
+      },
+      {
+        "name": "paysByDirectDebit",
+        "type": "boolean",
+        "sourceNames": [],
+        "description": "True when the customer pays by direct debit; the direct debit section is shown only in that case."
+      }
+    ],
+    "header": [],
+    "footer": [],
+    "blocks": [
+      {
+        "type": "paragraph",
+        "style": "Heading1",
+        "content": [
+          {
+            "text": "Welcome to Harbourline"
+          }
+        ]
+      },
+      {
+        "type": "paragraph",
+        "style": "Normal",
+        "content": [
+          {
+            "text": "Dear "
+          },
+          {
+            "var": "firstName"
+          },
+          {
+            "text": ","
+          }
+        ]
+      },
+      {
+        "type": "paragraph",
+        "style": "Normal",
+        "content": [
+          {
+            "text": "Thank you for choosing us for your "
+          },
+          {
+            "var": "product"
+          },
+          {
+            "text": " cover. Your policy number is "
+          },
+          {
+            "var": "policyNo"
+          },
+          {
+            "text": " and your cover starts on "
+          },
+          {
+            "var": "startDate"
+          },
+          {
+            "text": "."
+          }
+        ]
+      },
+      {
+        "type": "paragraph",
+        "style": "Heading2",
+        "content": [
+          {
+            "text": "What happens next"
+          }
+        ]
+      },
+      {
+        "type": "paragraph",
+        "style": "Normal",
+        "list": true,
+        "content": [
+          {
+            "text": "Read your policy schedule and check your details."
+          }
+        ]
+      },
+      {
+        "type": "paragraph",
+        "style": "Normal",
+        "list": true,
+        "content": [
+          {
+            "text": "Keep this letter with your policy documents."
+          }
+        ]
+      },
+      {
+        "type": "paragraph",
+        "style": "Normal",
+        "list": true,
+        "content": [
+          {
+            "text": "Set up your online account at harbourline.example/register."
+          }
+        ]
+      },
+      {
+        "type": "conditional",
+        "when": {
+          "var": "paysByDirectDebit",
+          "op": "isTrue"
+        },
+        "blocks": [
+          {
+            "type": "paragraph",
+            "style": "Heading2",
+            "content": [
+              {
+                "text": "Your direct debit"
+              }
+            ]
+          },
+          {
+            "type": "paragraph",
+            "style": "Normal",
+            "content": [
+              {
+                "text": "We will debit "
+              },
+              {
+                "var": "instalmentAmount"
+              },
+              {
+                "text": " from your account ending in "
+              },
+              {
+                "var": "accountLast4"
+              },
+              {
+                "text": " on the "
+              },
+              {
+                "var": "debitDay"
+              },
+              {
+                "text": " of each month."
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "type": "pageBreak"
+      },
+      {
+        "type": "paragraph",
+        "style": "Heading2",
+        "content": [
+          {
+            "text": "How to contact us"
+          }
+        ]
+      },
+      {
+        "type": "paragraph",
+        "style": "Normal",
+        "content": [
+          {
+            "text": "Phone 1300 000 000, Monday to Friday, 8am to 6pm."
+          }
+        ]
+      },
+      {
+        "type": "paragraph",
+        "style": "Normal",
+        "content": [
+          {
+            "text": "Email care@harbourline.example."
+          }
+        ]
+      }
+    ],
+    "rules": [
+      {
+        "id": "R1",
+        "source": "Delete this section if the customer does not pay by direct debit",
+        "interpretation": "The direct debit heading and paragraph are wrapped in a conditional shown only when the new boolean variable paysByDirectDebit is true; the instruction itself is not printed.",
+        "resolution": "conditional",
+        "confidence": 0.9
+      }
+    ]
+  },
+  "renders": [
+    {
+      "name": "All conditions true",
+      "data": {
+        "firstName": "Alex",
+        "product": "Home and Contents",
+        "policyNo": "100234567",
+        "startDate": "2026-12-01",
+        "instalmentAmount": 1250.5,
+        "accountLast4": "4821",
+        "debitDay": 15,
+        "paysByDirectDebit": true
+      },
+      "html": "\u003Ch1 class=\u0022s-Heading1\u0022\u003EWelcome to Harbourline\u003C/h1\u003E\u003Cp class=\u0022s-Normal\u0022\u003EDear \u003Cspan class=\u0022v\u0022\u003EAlex\u003C/span\u003E,\u003C/p\u003E\u003Cp class=\u0022s-Normal\u0022\u003EThank you for choosing us for your \u003Cspan class=\u0022v\u0022\u003EHome and Contents\u003C/span\u003E cover. Your policy number is \u003Cspan class=\u0022v\u0022\u003E100234567\u003C/span\u003E and your cover starts on \u003Cspan class=\u0022v\u0022\u003E1 December 2026\u003C/span\u003E.\u003C/p\u003E\u003Ch2 class=\u0022s-Heading2\u0022\u003EWhat happens next\u003C/h2\u003E\u003Cul\u003E\u003Cli\u003ERead your policy schedule and check your details.\u003C/li\u003E\u003Cli\u003EKeep this letter with your policy documents.\u003C/li\u003E\u003Cli\u003ESet up your online account at harbourline.example/register.\u003C/li\u003E\u003C/ul\u003E\u003Ch2 class=\u0022s-Heading2\u0022\u003EYour direct debit\u003C/h2\u003E\u003Cp class=\u0022s-Normal\u0022\u003EWe will debit \u003Cspan class=\u0022v\u0022\u003E1,250.50\u003C/span\u003E from your account ending in \u003Cspan class=\u0022v\u0022\u003E4821\u003C/span\u003E on the \u003Cspan class=\u0022v\u0022\u003E15\u003C/span\u003E of each month.\u003C/p\u003E\u003Chr class=\u0022pagebreak\u0022\u003E\u003Ch2 class=\u0022s-Heading2\u0022\u003EHow to contact us\u003C/h2\u003E\u003Cp class=\u0022s-Normal\u0022\u003EPhone 1300 000 000, Monday to Friday, 8am to 6pm.\u003C/p\u003E\u003Cp class=\u0022s-Normal\u0022\u003EEmail care@harbourline.example.\u003C/p\u003E"
+    },
+    {
+      "name": "All conditions false",
+      "data": {
+        "firstName": "Alex",
+        "product": "Home and Contents",
+        "policyNo": "100234567",
+        "startDate": "2026-12-01",
+        "instalmentAmount": 1250.5,
+        "accountLast4": "4821",
+        "debitDay": 15,
+        "paysByDirectDebit": false
+      },
+      "html": "\u003Ch1 class=\u0022s-Heading1\u0022\u003EWelcome to Harbourline\u003C/h1\u003E\u003Cp class=\u0022s-Normal\u0022\u003EDear \u003Cspan class=\u0022v\u0022\u003EAlex\u003C/span\u003E,\u003C/p\u003E\u003Cp class=\u0022s-Normal\u0022\u003EThank you for choosing us for your \u003Cspan class=\u0022v\u0022\u003EHome and Contents\u003C/span\u003E cover. Your policy number is \u003Cspan class=\u0022v\u0022\u003E100234567\u003C/span\u003E and your cover starts on \u003Cspan class=\u0022v\u0022\u003E1 December 2026\u003C/span\u003E.\u003C/p\u003E\u003Ch2 class=\u0022s-Heading2\u0022\u003EWhat happens next\u003C/h2\u003E\u003Cul\u003E\u003Cli\u003ERead your policy schedule and check your details.\u003C/li\u003E\u003Cli\u003EKeep this letter with your policy documents.\u003C/li\u003E\u003Cli\u003ESet up your online account at harbourline.example/register.\u003C/li\u003E\u003C/ul\u003E\u003Chr class=\u0022pagebreak\u0022\u003E\u003Ch2 class=\u0022s-Heading2\u0022\u003EHow to contact us\u003C/h2\u003E\u003Cp class=\u0022s-Normal\u0022\u003EPhone 1300 000 000, Monday to Friday, 8am to 6pm.\u003C/p\u003E\u003Cp class=\u0022s-Normal\u0022\u003EEmail care@harbourline.example.\u003C/p\u003E"
+    }
+  ],
+  "source": {
+    "file": "05-welcome-letter.docx",
+    "format": "docx",
+    "page": {
+      "size": "A4",
+      "orientation": "portrait",
+      "marginsMm": {
+        "top": 25.4,
+        "right": 20,
+        "bottom": 25.4,
+        "left": 20
+      }
+    },
+    "styles": [
+      {
+        "id": "Normal",
+        "name": "Normal",
+        "basedOn": null,
+        "bold": false,
+        "italic": false,
+        "sizePt": 11
+      },
+      {
+        "id": "Heading1",
+        "name": "heading 1",
+        "basedOn": "Normal",
+        "bold": true,
+        "italic": false,
+        "sizePt": 16
+      },
+      {
+        "id": "Heading2",
+        "name": "heading 2",
+        "basedOn": "Normal",
+        "bold": true,
+        "italic": false,
+        "sizePt": 13
+      },
+      {
+        "id": "Address",
+        "name": "Address",
+        "basedOn": "Normal",
+        "bold": false,
+        "italic": false,
+        "sizePt": null
+      },
+      {
+        "id": "SmallPrint",
+        "name": "Small Print",
+        "basedOn": "Normal",
+        "bold": false,
+        "italic": true,
+        "sizePt": 8
+      }
+    ],
+    "header": [],
+    "body": [
+      {
+        "n": 1,
+        "type": "paragraph",
+        "style": "Heading1",
+        "inlines": [
+          {
+            "text": "Welcome to Harbourline"
+          }
+        ]
+      },
+      {
+        "n": 2,
+        "type": "paragraph",
+        "style": "Normal",
+        "inlines": [
+          {
+            "text": "Dear "
+          },
+          {
+            "placeholder": "First Name",
+            "raw": "\u00ABFirst Name\u00BB",
+            "convention": "\u00AB\u00BB"
+          },
+          {
+            "text": ","
+          }
+        ]
+      },
+      {
+        "n": 3,
+        "type": "paragraph",
+        "style": "Normal",
+        "inlines": [
+          {
+            "text": "Thank you for choosing us for your "
+          },
+          {
+            "placeholder": "Product",
+            "raw": "\u00ABProduct\u00BB",
+            "convention": "\u00AB\u00BB"
+          },
+          {
+            "text": " cover. Your policy number is "
+          },
+          {
+            "placeholder": "Policy No",
+            "raw": "\u00ABPolicy No\u00BB",
+            "convention": "\u00AB\u00BB"
+          },
+          {
+            "text": " and your cover starts on "
+          },
+          {
+            "placeholder": "Start Date",
+            "raw": "\u00ABStart Date\u00BB",
+            "convention": "\u00AB\u00BB"
+          },
+          {
+            "text": "."
+          }
+        ]
+      },
+      {
+        "n": 4,
+        "type": "paragraph",
+        "style": "Heading2",
+        "inlines": [
+          {
+            "text": "What happens next"
+          }
+        ]
+      },
+      {
+        "n": 5,
+        "type": "paragraph",
+        "style": "Normal",
+        "listItem": true,
+        "inlines": [
+          {
+            "text": "Read your policy schedule and check your details."
+          }
+        ]
+      },
+      {
+        "n": 6,
+        "type": "paragraph",
+        "style": "Normal",
+        "listItem": true,
+        "inlines": [
+          {
+            "text": "Keep this letter with your policy documents."
+          }
+        ]
+      },
+      {
+        "n": 7,
+        "type": "paragraph",
+        "style": "Normal",
+        "listItem": true,
+        "inlines": [
+          {
+            "text": "Set up your online account at harbourline.example/register."
+          }
+        ]
+      },
+      {
+        "n": 8,
+        "type": "paragraph",
+        "style": "Normal",
+        "inlines": [
+          {
+            "instruction": "Delete this section if the customer does not pay by direct debit"
+          }
+        ]
+      },
+      {
+        "n": 9,
+        "type": "paragraph",
+        "style": "Heading2",
+        "inlines": [
+          {
+            "text": "Your direct debit"
+          }
+        ]
+      },
+      {
+        "n": 10,
+        "type": "paragraph",
+        "style": "Normal",
+        "inlines": [
+          {
+            "text": "We will debit "
+          },
+          {
+            "placeholder": "Instalment Amount",
+            "raw": "\u00ABInstalment Amount\u00BB",
+            "convention": "\u00AB\u00BB"
+          },
+          {
+            "text": " from your account ending in "
+          },
+          {
+            "placeholder": "Account Last 4",
+            "raw": "\u00ABAccount Last 4\u00BB",
+            "convention": "\u00AB\u00BB"
+          },
+          {
+            "text": " on the "
+          },
+          {
+            "placeholder": "Debit Day",
+            "raw": "\u00ABDebit Day\u00BB",
+            "convention": "\u00AB\u00BB"
+          },
+          {
+            "text": " of each month."
+          }
+        ]
+      },
+      {
+        "n": 11,
+        "type": "paragraph",
+        "style": "Heading2",
+        "pageBreakBefore": true,
+        "inlines": [
+          {
+            "text": "How to contact us"
+          }
+        ]
+      },
+      {
+        "n": 12,
+        "type": "paragraph",
+        "style": "Normal",
+        "inlines": [
+          {
+            "text": "Phone 1300 000 000, Monday to Friday, 8am to 6pm."
+          }
+        ]
+      },
+      {
+        "n": 13,
+        "type": "paragraph",
+        "style": "Normal",
+        "inlines": [
+          {
+            "text": "Email care@harbourline.example."
+          }
+        ]
+      }
+    ],
+    "footer": []
+  }
+}

@@ -1,0 +1,285 @@
+{
+  "schemaVersion": "1.0",
+  "name": "03-account-statement",
+  "source": {
+    "file": "03-account-statement.docx",
+    "format": "docx"
+  },
+  "page": {
+    "size": "A4",
+    "orientation": "landscape",
+    "marginsMm": {
+      "top": 25.4,
+      "right": 20,
+      "bottom": 25.4,
+      "left": 20
+    }
+  },
+  "variables": [
+    {
+      "name": "periodStart",
+      "type": "date",
+      "sourceNames": [
+        "Period_Start"
+      ],
+      "format": "d MMM yyyy"
+    },
+    {
+      "name": "periodEnd",
+      "type": "date",
+      "sourceNames": [
+        "Period_End"
+      ],
+      "format": "d MMM yyyy"
+    },
+    {
+      "name": "accountNumber",
+      "type": "string",
+      "sourceNames": [
+        "Account_Number"
+      ]
+    },
+    {
+      "name": "accountName",
+      "type": "string",
+      "sourceNames": [
+        "Account_Name"
+      ]
+    },
+    {
+      "name": "transactions",
+      "type": "list",
+      "sourceNames": [
+        "Transactions"
+      ],
+      "fields": [
+        {
+          "name": "txnDate",
+          "type": "date",
+          "sourceNames": [
+            "Txn_Date"
+          ],
+          "format": "dd/MM/yyyy"
+        },
+        {
+          "name": "txnDescription",
+          "type": "string",
+          "sourceNames": [
+            "Txn_Description"
+          ]
+        },
+        {
+          "name": "txnAmount",
+          "type": "currency",
+          "sourceNames": [
+            "Txn_Amount"
+          ],
+          "format": "$#,##0.00"
+        }
+      ]
+    },
+    {
+      "name": "openingBalance",
+      "type": "currency",
+      "sourceNames": [
+        "Opening_Balance"
+      ],
+      "format": "$#,##0.00"
+    },
+    {
+      "name": "closingBalance",
+      "type": "currency",
+      "sourceNames": [
+        "Closing_Balance"
+      ],
+      "format": "$#,##0.00"
+    },
+    {
+      "name": "dueDate",
+      "type": "date",
+      "sourceNames": [
+        "Due_Date"
+      ]
+    }
+  ],
+  "header": [],
+  "footer": [
+    {
+      "text": "Northgate Energy. Page "
+    },
+    {
+      "sys": "pageNumber"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "paragraph",
+      "style": "Heading1",
+      "content": [
+        {
+          "text": "Account statement"
+        }
+      ]
+    },
+    {
+      "type": "paragraph",
+      "style": "Normal",
+      "content": [
+        {
+          "text": "Statement period: "
+        },
+        {
+          "var": "periodStart",
+          "format": "d MMM yyyy"
+        },
+        {
+          "text": " to "
+        },
+        {
+          "var": "periodEnd",
+          "format": "d MMM yyyy"
+        }
+      ]
+    },
+    {
+      "type": "paragraph",
+      "style": "Normal",
+      "content": [
+        {
+          "text": "Account: ",
+          "bold": true
+        },
+        {
+          "var": "accountNumber"
+        }
+      ]
+    },
+    {
+      "type": "paragraph",
+      "style": "Normal",
+      "content": [
+        {
+          "text": "Name: ",
+          "bold": true
+        },
+        {
+          "var": "accountName"
+        }
+      ]
+    },
+    {
+      "type": "table",
+      "header": [
+        [
+          {
+            "text": "Date",
+            "bold": true
+          }
+        ],
+        [
+          {
+            "text": "Description",
+            "bold": true
+          }
+        ],
+        [
+          {
+            "text": "Amount",
+            "bold": true
+          }
+        ]
+      ],
+      "repeat": {
+        "over": "transactions",
+        "cells": [
+          [
+            {
+              "var": "transactions.txnDate",
+              "format": "dd/MM/yyyy"
+            }
+          ],
+          [
+            {
+              "var": "transactions.txnDescription"
+            }
+          ],
+          [
+            {
+              "var": "transactions.txnAmount",
+              "format": "$#,##0.00"
+            }
+          ]
+        ]
+      }
+    },
+    {
+      "type": "paragraph",
+      "style": "Normal",
+      "content": [
+        {
+          "text": "Opening balance: "
+        },
+        {
+          "var": "openingBalance",
+          "format": "$#,##0.00"
+        }
+      ]
+    },
+    {
+      "type": "paragraph",
+      "style": "Normal",
+      "content": [
+        {
+          "text": "Closing balance: "
+        },
+        {
+          "var": "closingBalance",
+          "format": "$#,##0.00"
+        }
+      ]
+    },
+    {
+      "type": "conditional",
+      "when": {
+        "var": "closingBalance",
+        "op": "gt",
+        "value": 0
+      },
+      "blocks": [
+        {
+          "type": "paragraph",
+          "style": "Normal",
+          "content": [
+            {
+              "text": "Please pay "
+            },
+            {
+              "var": "closingBalance"
+            },
+            {
+              "text": " by "
+            },
+            {
+              "var": "dueDate"
+            },
+            {
+              "text": "."
+            }
+          ]
+        }
+      ],
+      "else": [
+        {
+          "type": "paragraph",
+          "style": "Normal",
+          "content": [
+            {
+              "text": "Your account is in credit. No payment is needed."
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "rules": []
+}

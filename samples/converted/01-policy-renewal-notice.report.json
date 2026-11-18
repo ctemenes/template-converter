@@ -1,0 +1,783 @@
+{
+  "file": "01-policy-renewal-notice.docx",
+  "status": "Converted",
+  "mapper": "llm:claude-sonnet-5-5",
+  "fidelity": 100,
+  "millis": 9197,
+  "error": null,
+  "scores": {
+    "wordsKept": 1,
+    "wordsNotInvented": 1,
+    "fieldsBound": 1,
+    "logicAccountedFor": 1,
+    "needsReview": 0
+  },
+  "findings": [],
+  "attempts": [
+    {
+      "number": 0,
+      "mapper": "rules",
+      "errors": 0,
+      "warnings": 0,
+      "fidelity": 100,
+      "millis": 73,
+      "inputTokens": null,
+      "outputTokens": null,
+      "errorMessages": []
+    },
+    {
+      "number": 1,
+      "mapper": "llm:claude-sonnet-5-5",
+      "errors": 0,
+      "warnings": 0,
+      "fidelity": 100,
+      "millis": 9047,
+      "inputTokens": 4654,
+      "outputTokens": 1764,
+      "errorMessages": []
+    }
+  ],
+  "counts": {
+    "variables": 15,
+    "rules": 0,
+    "blocks": 12
+  },
+  "template": {
+    "schemaVersion": "1.0",
+    "name": "01-policy-renewal-notice",
+    "source": {
+      "file": "01-policy-renewal-notice.docx",
+      "format": "docx"
+    },
+    "page": {
+      "size": "A4",
+      "orientation": "portrait",
+      "marginsMm": {
+        "top": 25.4,
+        "right": 20,
+        "bottom": 25.4,
+        "left": 20
+      }
+    },
+    "variables": [
+      {
+        "name": "letterDate",
+        "type": "date",
+        "sourceNames": [
+          "Letter_Date"
+        ],
+        "format": "d MMMM yyyy"
+      },
+      {
+        "name": "title",
+        "type": "string",
+        "sourceNames": [
+          "Title"
+        ]
+      },
+      {
+        "name": "firstName",
+        "type": "string",
+        "sourceNames": [
+          "First_Name"
+        ]
+      },
+      {
+        "name": "lastName",
+        "type": "string",
+        "sourceNames": [
+          "Last_Name"
+        ]
+      },
+      {
+        "name": "addressLine1",
+        "type": "string",
+        "sourceNames": [
+          "Address_Line_1"
+        ]
+      },
+      {
+        "name": "suburb",
+        "type": "string",
+        "sourceNames": [
+          "Suburb"
+        ]
+      },
+      {
+        "name": "state",
+        "type": "string",
+        "sourceNames": [
+          "State"
+        ]
+      },
+      {
+        "name": "postcode",
+        "type": "string",
+        "sourceNames": [
+          "Postcode"
+        ]
+      },
+      {
+        "name": "productName",
+        "type": "string",
+        "sourceNames": [
+          "Product_Name"
+        ]
+      },
+      {
+        "name": "policyNumber",
+        "type": "string",
+        "sourceNames": [
+          "Policy_Number"
+        ]
+      },
+      {
+        "name": "expiryDate",
+        "type": "date",
+        "sourceNames": [
+          "Expiry_Date"
+        ],
+        "format": "d MMMM yyyy"
+      },
+      {
+        "name": "renewalPremium",
+        "type": "currency",
+        "sourceNames": [
+          "Renewal_Premium"
+        ],
+        "format": "$#,##0.00"
+      },
+      {
+        "name": "dueDate",
+        "type": "date",
+        "sourceNames": [
+          "Due_Date"
+        ],
+        "format": "d MMMM yyyy"
+      },
+      {
+        "name": "levyAmount",
+        "type": "currency",
+        "sourceNames": [
+          "Levy_Amount"
+        ]
+      },
+      {
+        "name": "autoRenew",
+        "type": "string",
+        "sourceNames": [
+          "Auto_Renew"
+        ]
+      }
+    ],
+    "header": [],
+    "footer": [
+      {
+        "text": "Harbourline Mutual Ltd ABN 00 000 000 000. Page "
+      },
+      {
+        "sys": "pageNumber"
+      },
+      {
+        "text": " of "
+      },
+      {
+        "sys": "pageCount"
+      }
+    ],
+    "blocks": [
+      {
+        "type": "paragraph",
+        "style": "Heading1",
+        "content": [
+          {
+            "text": "Your policy is due for renewal"
+          }
+        ]
+      },
+      {
+        "type": "paragraph",
+        "style": "Normal",
+        "content": [
+          {
+            "var": "letterDate",
+            "format": "d MMMM yyyy"
+          }
+        ]
+      },
+      {
+        "type": "paragraph",
+        "style": "Address",
+        "content": [
+          {
+            "var": "title"
+          },
+          {
+            "text": " "
+          },
+          {
+            "var": "firstName"
+          },
+          {
+            "text": " "
+          },
+          {
+            "var": "lastName"
+          }
+        ]
+      },
+      {
+        "type": "paragraph",
+        "style": "Address",
+        "content": [
+          {
+            "var": "addressLine1"
+          }
+        ]
+      },
+      {
+        "type": "paragraph",
+        "style": "Address",
+        "content": [
+          {
+            "var": "suburb"
+          },
+          {
+            "text": " "
+          },
+          {
+            "var": "state"
+          },
+          {
+            "text": " "
+          },
+          {
+            "var": "postcode"
+          }
+        ]
+      },
+      {
+        "type": "paragraph",
+        "style": "Normal",
+        "content": [
+          {
+            "text": "Dear "
+          },
+          {
+            "var": "firstName"
+          },
+          {
+            "text": ","
+          }
+        ]
+      },
+      {
+        "type": "paragraph",
+        "style": "Normal",
+        "content": [
+          {
+            "text": "Your "
+          },
+          {
+            "var": "productName"
+          },
+          {
+            "text": " policy "
+          },
+          {
+            "var": "policyNumber"
+          },
+          {
+            "text": " expires on "
+          },
+          {
+            "var": "expiryDate",
+            "format": "d MMMM yyyy"
+          },
+          {
+            "text": ". To keep your cover in place, your renewal premium of "
+          },
+          {
+            "var": "renewalPremium",
+            "format": "$#,##0.00"
+          },
+          {
+            "text": " is due by "
+          },
+          {
+            "var": "dueDate",
+            "format": "d MMMM yyyy"
+          },
+          {
+            "text": "."
+          }
+        ]
+      },
+      {
+        "type": "conditional",
+        "when": {
+          "var": "state",
+          "op": "eq",
+          "value": "QLD"
+        },
+        "blocks": [
+          {
+            "type": "paragraph",
+            "style": "Normal",
+            "content": [
+              {
+                "text": "Because your property is in Queensland, your premium includes the state emergency levy of "
+              },
+              {
+                "var": "levyAmount"
+              },
+              {
+                "text": "."
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "type": "conditional",
+        "when": {
+          "var": "autoRenew",
+          "op": "eq",
+          "value": "Y"
+        },
+        "blocks": [
+          {
+            "type": "paragraph",
+            "style": "Normal",
+            "content": [
+              {
+                "text": "We will debit your nominated account on the due date. You do not need to do anything."
+              }
+            ]
+          }
+        ],
+        "else": [
+          {
+            "type": "paragraph",
+            "style": "Normal",
+            "content": [
+              {
+                "text": "Please pay by the due date using one of the options on the back of this notice."
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "type": "paragraph",
+        "style": "Normal",
+        "content": [
+          {
+            "text": "If your details have changed, call us on 1300 000 000."
+          }
+        ]
+      },
+      {
+        "type": "paragraph",
+        "style": "Normal",
+        "content": [
+          {
+            "text": "Yours sincerely,"
+          }
+        ]
+      },
+      {
+        "type": "paragraph",
+        "style": "Normal",
+        "content": [
+          {
+            "text": "Customer Care Team",
+            "bold": true
+          }
+        ]
+      }
+    ],
+    "rules": []
+  },
+  "renders": [
+    {
+      "name": "All conditions true",
+      "data": {
+        "letterDate": "2026-12-01",
+        "title": "Ms",
+        "firstName": "Alex",
+        "lastName": "Nguyen",
+        "addressLine1": "12 Example Street",
+        "suburb": "Brisbane",
+        "state": "QLD",
+        "postcode": "4000",
+        "productName": "Home and Contents",
+        "policyNumber": "100234567",
+        "expiryDate": "2026-12-31",
+        "renewalPremium": 1250.5,
+        "dueDate": "2026-12-15",
+        "levyAmount": 70.5,
+        "autoRenew": "Y"
+      },
+      "html": "\u003Ch1 class=\u0022s-Heading1\u0022\u003EYour policy is due for renewal\u003C/h1\u003E\u003Cp class=\u0022s-Normal\u0022\u003E\u003Cspan class=\u0022v\u0022\u003E1 December 2026\u003C/span\u003E\u003C/p\u003E\u003Cp class=\u0022s-Address\u0022\u003E\u003Cspan class=\u0022v\u0022\u003EMs\u003C/span\u003E \u003Cspan class=\u0022v\u0022\u003EAlex\u003C/span\u003E \u003Cspan class=\u0022v\u0022\u003ENguyen\u003C/span\u003E\u003C/p\u003E\u003Cp class=\u0022s-Address\u0022\u003E\u003Cspan class=\u0022v\u0022\u003E12 Example Street\u003C/span\u003E\u003C/p\u003E\u003Cp class=\u0022s-Address\u0022\u003E\u003Cspan class=\u0022v\u0022\u003EBrisbane\u003C/span\u003E \u003Cspan class=\u0022v\u0022\u003EQLD\u003C/span\u003E \u003Cspan class=\u0022v\u0022\u003E4000\u003C/span\u003E\u003C/p\u003E\u003Cp class=\u0022s-Normal\u0022\u003EDear \u003Cspan class=\u0022v\u0022\u003EAlex\u003C/span\u003E,\u003C/p\u003E\u003Cp class=\u0022s-Normal\u0022\u003EYour \u003Cspan class=\u0022v\u0022\u003EHome and Contents\u003C/span\u003E policy \u003Cspan class=\u0022v\u0022\u003E100234567\u003C/span\u003E expires on \u003Cspan class=\u0022v\u0022\u003E31 December 2026\u003C/span\u003E. To keep your cover in place, your renewal premium of \u003Cspan class=\u0022v\u0022\u003E$1,250.50\u003C/span\u003E is due by \u003Cspan class=\u0022v\u0022\u003E15 December 2026\u003C/span\u003E.\u003C/p\u003E\u003Cp class=\u0022s-Normal\u0022\u003EBecause your property is in Queensland, your premium includes the state emergency levy of \u003Cspan class=\u0022v\u0022\u003E70.50\u003C/span\u003E.\u003C/p\u003E\u003Cp class=\u0022s-Normal\u0022\u003EWe will debit your nominated account on the due date. You do not need to do anything.\u003C/p\u003E\u003Cp class=\u0022s-Normal\u0022\u003EIf your details have changed, call us on 1300 000 000.\u003C/p\u003E\u003Cp class=\u0022s-Normal\u0022\u003EYours sincerely,\u003C/p\u003E\u003Cp class=\u0022s-Normal\u0022\u003E\u003Cstrong\u003ECustomer Care Team\u003C/strong\u003E\u003C/p\u003E\u003Cdiv class=\u0022ftr\u0022\u003EHarbourline Mutual Ltd ABN 00 000 000 000. Page 1 of 1\u003C/div\u003E"
+    },
+    {
+      "name": "Only: state = QLD",
+      "data": {
+        "letterDate": "2026-12-01",
+        "title": "Ms",
+        "firstName": "Alex",
+        "lastName": "Nguyen",
+        "addressLine1": "12 Example Street",
+        "suburb": "Brisbane",
+        "state": "QLD",
+        "postcode": "4000",
+        "productName": "Home and Contents",
+        "policyNumber": "100234567",
+        "expiryDate": "2026-12-31",
+        "renewalPremium": 1250.5,
+        "dueDate": "2026-12-15",
+        "levyAmount": 70.5,
+        "autoRenew": "Other"
+      },
+      "html": "\u003Ch1 class=\u0022s-Heading1\u0022\u003EYour policy is due for renewal\u003C/h1\u003E\u003Cp class=\u0022s-Normal\u0022\u003E\u003Cspan class=\u0022v\u0022\u003E1 December 2026\u003C/span\u003E\u003C/p\u003E\u003Cp class=\u0022s-Address\u0022\u003E\u003Cspan class=\u0022v\u0022\u003EMs\u003C/span\u003E \u003Cspan class=\u0022v\u0022\u003EAlex\u003C/span\u003E \u003Cspan class=\u0022v\u0022\u003ENguyen\u003C/span\u003E\u003C/p\u003E\u003Cp class=\u0022s-Address\u0022\u003E\u003Cspan class=\u0022v\u0022\u003E12 Example Street\u003C/span\u003E\u003C/p\u003E\u003Cp class=\u0022s-Address\u0022\u003E\u003Cspan class=\u0022v\u0022\u003EBrisbane\u003C/span\u003E \u003Cspan class=\u0022v\u0022\u003EQLD\u003C/span\u003E \u003Cspan class=\u0022v\u0022\u003E4000\u003C/span\u003E\u003C/p\u003E\u003Cp class=\u0022s-Normal\u0022\u003EDear \u003Cspan class=\u0022v\u0022\u003EAlex\u003C/span\u003E,\u003C/p\u003E\u003Cp class=\u0022s-Normal\u0022\u003EYour \u003Cspan class=\u0022v\u0022\u003EHome and Contents\u003C/span\u003E policy \u003Cspan class=\u0022v\u0022\u003E100234567\u003C/span\u003E expires on \u003Cspan class=\u0022v\u0022\u003E31 December 2026\u003C/span\u003E. To keep your cover in place, your renewal premium of \u003Cspan class=\u0022v\u0022\u003E$1,250.50\u003C/span\u003E is due by \u003Cspan class=\u0022v\u0022\u003E15 December 2026\u003C/span\u003E.\u003C/p\u003E\u003Cp class=\u0022s-Normal\u0022\u003EBecause your property is in Queensland, your premium includes the state emergency levy of \u003Cspan class=\u0022v\u0022\u003E70.50\u003C/span\u003E.\u003C/p\u003E\u003Cp class=\u0022s-Normal\u0022\u003EPlease pay by the due date using one of the options on the back of this notice.\u003C/p\u003E\u003Cp class=\u0022s-Normal\u0022\u003EIf your details have changed, call us on 1300 000 000.\u003C/p\u003E\u003Cp class=\u0022s-Normal\u0022\u003EYours sincerely,\u003C/p\u003E\u003Cp class=\u0022s-Normal\u0022\u003E\u003Cstrong\u003ECustomer Care Team\u003C/strong\u003E\u003C/p\u003E\u003Cdiv class=\u0022ftr\u0022\u003EHarbourline Mutual Ltd ABN 00 000 000 000. Page 1 of 1\u003C/div\u003E"
+    },
+    {
+      "name": "Only: autoRenew = Y",
+      "data": {
+        "letterDate": "2026-12-01",
+        "title": "Ms",
+        "firstName": "Alex",
+        "lastName": "Nguyen",
+        "addressLine1": "12 Example Street",
+        "suburb": "Brisbane",
+        "state": "Other",
+        "postcode": "4000",
+        "productName": "Home and Contents",
+        "policyNumber": "100234567",
+        "expiryDate": "2026-12-31",
+        "renewalPremium": 1250.5,
+        "dueDate": "2026-12-15",
+        "levyAmount": 70.5,
+        "autoRenew": "Y"
+      },
+      "html": "\u003Ch1 class=\u0022s-Heading1\u0022\u003EYour policy is due for renewal\u003C/h1\u003E\u003Cp class=\u0022s-Normal\u0022\u003E\u003Cspan class=\u0022v\u0022\u003E1 December 2026\u003C/span\u003E\u003C/p\u003E\u003Cp class=\u0022s-Address\u0022\u003E\u003Cspan class=\u0022v\u0022\u003EMs\u003C/span\u003E \u003Cspan class=\u0022v\u0022\u003EAlex\u003C/span\u003E \u003Cspan class=\u0022v\u0022\u003ENguyen\u003C/span\u003E\u003C/p\u003E\u003Cp class=\u0022s-Address\u0022\u003E\u003Cspan class=\u0022v\u0022\u003E12 Example Street\u003C/span\u003E\u003C/p\u003E\u003Cp class=\u0022s-Address\u0022\u003E\u003Cspan class=\u0022v\u0022\u003EBrisbane\u003C/span\u003E \u003Cspan class=\u0022v\u0022\u003EOther\u003C/span\u003E \u003Cspan class=\u0022v\u0022\u003E4000\u003C/span\u003E\u003C/p\u003E\u003Cp class=\u0022s-Normal\u0022\u003EDear \u003Cspan class=\u0022v\u0022\u003EAlex\u003C/span\u003E,\u003C/p\u003E\u003Cp class=\u0022s-Normal\u0022\u003EYour \u003Cspan class=\u0022v\u0022\u003EHome and Contents\u003C/span\u003E policy \u003Cspan class=\u0022v\u0022\u003E100234567\u003C/span\u003E expires on \u003Cspan class=\u0022v\u0022\u003E31 December 2026\u003C/span\u003E. To keep your cover in place, your renewal premium of \u003Cspan class=\u0022v\u0022\u003E$1,250.50\u003C/span\u003E is due by \u003Cspan class=\u0022v\u0022\u003E15 December 2026\u003C/span\u003E.\u003C/p\u003E\u003Cp class=\u0022s-Normal\u0022\u003EWe will debit your nominated account on the due date. You do not need to do anything.\u003C/p\u003E\u003Cp class=\u0022s-Normal\u0022\u003EIf your details have changed, call us on 1300 000 000.\u003C/p\u003E\u003Cp class=\u0022s-Normal\u0022\u003EYours sincerely,\u003C/p\u003E\u003Cp class=\u0022s-Normal\u0022\u003E\u003Cstrong\u003ECustomer Care Team\u003C/strong\u003E\u003C/p\u003E\u003Cdiv class=\u0022ftr\u0022\u003EHarbourline Mutual Ltd ABN 00 000 000 000. Page 1 of 1\u003C/div\u003E"
+    },
+    {
+      "name": "All conditions false",
+      "data": {
+        "letterDate": "2026-12-01",
+        "title": "Ms",
+        "firstName": "Alex",
+        "lastName": "Nguyen",
+        "addressLine1": "12 Example Street",
+        "suburb": "Brisbane",
+        "state": "Other",
+        "postcode": "4000",
+        "productName": "Home and Contents",
+        "policyNumber": "100234567",
+        "expiryDate": "2026-12-31",
+        "renewalPremium": 1250.5,
+        "dueDate": "2026-12-15",
+        "levyAmount": 70.5,
+        "autoRenew": "Other"
+      },
+      "html": "\u003Ch1 class=\u0022s-Heading1\u0022\u003EYour policy is due for renewal\u003C/h1\u003E\u003Cp class=\u0022s-Normal\u0022\u003E\u003Cspan class=\u0022v\u0022\u003E1 December 2026\u003C/span\u003E\u003C/p\u003E\u003Cp class=\u0022s-Address\u0022\u003E\u003Cspan class=\u0022v\u0022\u003EMs\u003C/span\u003E \u003Cspan class=\u0022v\u0022\u003EAlex\u003C/span\u003E \u003Cspan class=\u0022v\u0022\u003ENguyen\u003C/span\u003E\u003C/p\u003E\u003Cp class=\u0022s-Address\u0022\u003E\u003Cspan class=\u0022v\u0022\u003E12 Example Street\u003C/span\u003E\u003C/p\u003E\u003Cp class=\u0022s-Address\u0022\u003E\u003Cspan class=\u0022v\u0022\u003EBrisbane\u003C/span\u003E \u003Cspan class=\u0022v\u0022\u003EOther\u003C/span\u003E \u003Cspan class=\u0022v\u0022\u003E4000\u003C/span\u003E\u003C/p\u003E\u003Cp class=\u0022s-Normal\u0022\u003EDear \u003Cspan class=\u0022v\u0022\u003EAlex\u003C/span\u003E,\u003C/p\u003E\u003Cp class=\u0022s-Normal\u0022\u003EYour \u003Cspan class=\u0022v\u0022\u003EHome and Contents\u003C/span\u003E policy \u003Cspan class=\u0022v\u0022\u003E100234567\u003C/span\u003E expires on \u003Cspan class=\u0022v\u0022\u003E31 December 2026\u003C/span\u003E. To keep your cover in place, your renewal premium of \u003Cspan class=\u0022v\u0022\u003E$1,250.50\u003C/span\u003E is due by \u003Cspan class=\u0022v\u0022\u003E15 December 2026\u003C/span\u003E.\u003C/p\u003E\u003Cp class=\u0022s-Normal\u0022\u003EPlease pay by the due date using one of the options on the back of this notice.\u003C/p\u003E\u003Cp class=\u0022s-Normal\u0022\u003EIf your details have changed, call us on 1300 000 000.\u003C/p\u003E\u003Cp class=\u0022s-Normal\u0022\u003EYours sincerely,\u003C/p\u003E\u003Cp class=\u0022s-Normal\u0022\u003E\u003Cstrong\u003ECustomer Care Team\u003C/strong\u003E\u003C/p\u003E\u003Cdiv class=\u0022ftr\u0022\u003EHarbourline Mutual Ltd ABN 00 000 000 000. Page 1 of 1\u003C/div\u003E"
+    }
+  ],
+  "source": {
+    "file": "01-policy-renewal-notice.docx",
+    "format": "docx",
+    "page": {
+      "size": "A4",
+      "orientation": "portrait",
+      "marginsMm": {
+        "top": 25.4,
+        "right": 20,
+        "bottom": 25.4,
+        "left": 20
+      }
+    },
+    "styles": [
+      {
+        "id": "Normal",
+        "name": "Normal",
+        "basedOn": null,
+        "bold": false,
+        "italic": false,
+        "sizePt": 11
+      },
+      {
+        "id": "Heading1",
+        "name": "heading 1",
+        "basedOn": "Normal",
+        "bold": true,
+        "italic": false,
+        "sizePt": 16
+      },
+      {
+        "id": "Heading2",
+        "name": "heading 2",
+        "basedOn": "Normal",
+        "bold": true,
+        "italic": false,
+        "sizePt": 13
+      },
+      {
+        "id": "Address",
+        "name": "Address",
+        "basedOn": "Normal",
+        "bold": false,
+        "italic": false,
+        "sizePt": null
+      },
+      {
+        "id": "SmallPrint",
+        "name": "Small Print",
+        "basedOn": "Normal",
+        "bold": false,
+        "italic": true,
+        "sizePt": 8
+      }
+    ],
+    "header": [],
+    "body": [
+      {
+        "n": 1,
+        "type": "paragraph",
+        "style": "Heading1",
+        "inlines": [
+          {
+            "text": "Your policy is due for renewal"
+          }
+        ]
+      },
+      {
+        "n": 2,
+        "type": "paragraph",
+        "style": "Normal",
+        "inlines": [
+          {
+            "mergeField": "Letter_Date",
+            "format": "d MMMM yyyy"
+          }
+        ]
+      },
+      {
+        "n": 3,
+        "type": "paragraph",
+        "style": "Address",
+        "inlines": [
+          {
+            "mergeField": "Title"
+          },
+          {
+            "text": " "
+          },
+          {
+            "mergeField": "First_Name"
+          },
+          {
+            "text": " "
+          },
+          {
+            "mergeField": "Last_Name"
+          }
+        ]
+      },
+      {
+        "n": 4,
+        "type": "paragraph",
+        "style": "Address",
+        "inlines": [
+          {
+            "mergeField": "Address_Line_1"
+          }
+        ]
+      },
+      {
+        "n": 5,
+        "type": "paragraph",
+        "style": "Address",
+        "inlines": [
+          {
+            "mergeField": "Suburb"
+          },
+          {
+            "text": " "
+          },
+          {
+            "mergeField": "State"
+          },
+          {
+            "text": " "
+          },
+          {
+            "mergeField": "Postcode"
+          }
+        ]
+      },
+      {
+        "n": 6,
+        "type": "paragraph",
+        "style": "Normal",
+        "inlines": [
+          {
+            "text": "Dear "
+          },
+          {
+            "mergeField": "First_Name"
+          },
+          {
+            "text": ","
+          }
+        ]
+      },
+      {
+        "n": 7,
+        "type": "paragraph",
+        "style": "Normal",
+        "inlines": [
+          {
+            "text": "Your "
+          },
+          {
+            "mergeField": "Product_Name"
+          },
+          {
+            "text": " policy "
+          },
+          {
+            "mergeField": "Policy_Number"
+          },
+          {
+            "text": " expires on "
+          },
+          {
+            "mergeField": "Expiry_Date",
+            "format": "d MMMM yyyy"
+          },
+          {
+            "text": ". To keep your cover in place, your renewal premium of "
+          },
+          {
+            "mergeField": "Renewal_Premium",
+            "format": "$#,##0.00"
+          },
+          {
+            "text": " is due by "
+          },
+          {
+            "mergeField": "Due_Date",
+            "format": "d MMMM yyyy"
+          },
+          {
+            "text": "."
+          }
+        ]
+      },
+      {
+        "n": 8,
+        "type": "paragraph",
+        "style": "Normal",
+        "inlines": [
+          {
+            "ifField": {
+              "left": "State",
+              "op": "=",
+              "right": "QLD",
+              "whenTrue": [
+                {
+                  "text": "Because your property is in Queensland, your premium includes the state emergency levy of "
+                },
+                {
+                  "mergeField": "Levy_Amount"
+                },
+                {
+                  "text": "."
+                }
+              ],
+              "whenFalse": []
+            }
+          }
+        ]
+      },
+      {
+        "n": 9,
+        "type": "paragraph",
+        "style": "Normal",
+        "inlines": [
+          {
+            "ifField": {
+              "left": "Auto_Renew",
+              "op": "=",
+              "right": "Y",
+              "whenTrue": [
+                {
+                  "text": "We will debit your nominated account on the due date. You do not need to do anything."
+                }
+              ],
+              "whenFalse": [
+                {
+                  "text": "Please pay by the due date using one of the options on the back of this notice."
+                }
+              ]
+            }
+          }
+        ]
+      },
+      {
+        "n": 10,
+        "type": "paragraph",
+        "style": "Normal",
+        "inlines": [
+          {
+            "text": "If your details have changed, call us on 1300 000 000."
+          }
+        ]
+      },
+      {
+        "n": 11,
+        "type": "paragraph",
+        "style": "Normal",
+        "inlines": [
+          {
+            "text": "Yours sincerely,"
+          }
+        ]
+      },
+      {
+        "n": 12,
+        "type": "paragraph",
+        "style": "Normal",
+        "inlines": [
+          {
+            "text": "Customer Care Team",
+            "bold": true
+          }
+        ]
+      }
+    ],
+    "footer": [
+      {
+        "n": 1,
+        "type": "paragraph",
+        "style": "SmallPrint",
+        "inlines": [
+          {
+            "text": "Harbourline Mutual Ltd ABN 00 000 000 000. Page "
+          },
+          {
+            "systemField": "PAGE"
+          },
+          {
+            "text": " of "
+          },
+          {
+            "systemField": "NUMPAGES"
+          }
+        ]
+      }
+    ]
+  }
+}

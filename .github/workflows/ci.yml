@@ -1,0 +1,18 @@
+name: build-and-test
+on:
+  push:
+  pull_request:
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 8.0.x
+      - name: Build everything (engine, API, CLI, Azure Functions, tests)
+        run: dotnet build TemplateConverter.sln -c Release
+      - name: Run the tests
+        run: dotnet run --project tests/Converter.Tests -c Release --no-build
+      - name: Convert the sample templates (rule-based pass, no model key in CI)
+        run: dotnet run --project src/Converter.Cli -c Release --no-build -- samples/legacy out --rules-only

@@ -1,0 +1,253 @@
+{
+  "schemaVersion": "1.0",
+  "name": "05-welcome-letter",
+  "source": {
+    "file": "05-welcome-letter.docx",
+    "format": "docx"
+  },
+  "page": {
+    "size": "A4",
+    "orientation": "portrait",
+    "marginsMm": {
+      "top": 25.4,
+      "right": 20,
+      "bottom": 25.4,
+      "left": 20
+    }
+  },
+  "variables": [
+    {
+      "name": "firstName",
+      "type": "string",
+      "sourceNames": [
+        "First Name"
+      ]
+    },
+    {
+      "name": "product",
+      "type": "string",
+      "sourceNames": [
+        "Product"
+      ]
+    },
+    {
+      "name": "policyNo",
+      "type": "string",
+      "sourceNames": [
+        "Policy No"
+      ]
+    },
+    {
+      "name": "startDate",
+      "type": "date",
+      "sourceNames": [
+        "Start Date"
+      ]
+    },
+    {
+      "name": "instalmentAmount",
+      "type": "currency",
+      "sourceNames": [
+        "Instalment Amount"
+      ]
+    },
+    {
+      "name": "accountLast4",
+      "type": "string",
+      "sourceNames": [
+        "Account Last 4"
+      ]
+    },
+    {
+      "name": "debitDay",
+      "type": "number",
+      "sourceNames": [
+        "Debit Day"
+      ]
+    },
+    {
+      "name": "paysByDirectDebit",
+      "type": "boolean",
+      "sourceNames": [],
+      "description": "True when the customer pays by direct debit; the direct debit section is shown only in that case."
+    }
+  ],
+  "header": [],
+  "footer": [],
+  "blocks": [
+    {
+      "type": "paragraph",
+      "style": "Heading1",
+      "content": [
+        {
+          "text": "Welcome to Harbourline"
+        }
+      ]
+    },
+    {
+      "type": "paragraph",
+      "style": "Normal",
+      "content": [
+        {
+          "text": "Dear "
+        },
+        {
+          "var": "firstName"
+        },
+        {
+          "text": ","
+        }
+      ]
+    },
+    {
+      "type": "paragraph",
+      "style": "Normal",
+      "content": [
+        {
+          "text": "Thank you for choosing us for your "
+        },
+        {
+          "var": "product"
+        },
+        {
+          "text": " cover. Your policy number is "
+        },
+        {
+          "var": "policyNo"
+        },
+        {
+          "text": " and your cover starts on "
+        },
+        {
+          "var": "startDate"
+        },
+        {
+          "text": "."
+        }
+      ]
+    },
+    {
+      "type": "paragraph",
+      "style": "Heading2",
+      "content": [
+        {
+          "text": "What happens next"
+        }
+      ]
+    },
+    {
+      "type": "paragraph",
+      "style": "Normal",
+      "list": true,
+      "content": [
+        {
+          "text": "Read your policy schedule and check your details."
+        }
+      ]
+    },
+    {
+      "type": "paragraph",
+      "style": "Normal",
+      "list": true,
+      "content": [
+        {
+          "text": "Keep this letter with your policy documents."
+        }
+      ]
+    },
+    {
+      "type": "paragraph",
+      "style": "Normal",
+      "list": true,
+      "content": [
+        {
+          "text": "Set up your online account at harbourline.example/register."
+        }
+      ]
+    },
+    {
+      "type": "conditional",
+      "when": {
+        "var": "paysByDirectDebit",
+        "op": "isTrue"
+      },
+      "blocks": [
+        {
+          "type": "paragraph",
+          "style": "Heading2",
+          "content": [
+            {
+              "text": "Your direct debit"
+            }
+          ]
+        },
+        {
+          "type": "paragraph",
+          "style": "Normal",
+          "content": [
+            {
+              "text": "We will debit "
+            },
+            {
+              "var": "instalmentAmount"
+            },
+            {
+              "text": " from your account ending in "
+            },
+            {
+              "var": "accountLast4"
+            },
+            {
+              "text": " on the "
+            },
+            {
+              "var": "debitDay"
+            },
+            {
+              "text": " of each month."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "pageBreak"
+    },
+    {
+      "type": "paragraph",
+      "style": "Heading2",
+      "content": [
+        {
+          "text": "How to contact us"
+        }
+      ]
+    },
+    {
+      "type": "paragraph",
+      "style": "Normal",
+      "content": [
+        {
+          "text": "Phone 1300 000 000, Monday to Friday, 8am to 6pm."
+        }
+      ]
+    },
+    {
+      "type": "paragraph",
+      "style": "Normal",
+      "content": [
+        {
+          "text": "Email care@harbourline.example."
+        }
+      ]
+    }
+  ],
+  "rules": [
+    {
+      "id": "R1",
+      "source": "Delete this section if the customer does not pay by direct debit",
+      "interpretation": "The direct debit heading and paragraph are wrapped in a conditional shown only when the new boolean variable paysByDirectDebit is true; the instruction itself is not printed.",
+      "resolution": "conditional",
+      "confidence": 0.9
+    }
+  ]
+}

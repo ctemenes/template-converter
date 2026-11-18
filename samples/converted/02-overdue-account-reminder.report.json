@@ -1,0 +1,576 @@
+{
+  "file": "02-overdue-account-reminder.docx",
+  "status": "Converted",
+  "mapper": "llm:claude-sonnet-5-5",
+  "fidelity": 100,
+  "millis": 12963,
+  "error": null,
+  "scores": {
+    "wordsKept": 1,
+    "wordsNotInvented": 1,
+    "fieldsBound": 1,
+    "logicAccountedFor": 1,
+    "needsReview": 0
+  },
+  "findings": [],
+  "attempts": [
+    {
+      "number": 0,
+      "mapper": "rules",
+      "errors": 0,
+      "warnings": 2,
+      "fidelity": 100,
+      "millis": 5,
+      "inputTokens": null,
+      "outputTokens": null,
+      "errorMessages": []
+    },
+    {
+      "number": 1,
+      "mapper": "llm:claude-sonnet-5-5",
+      "errors": 0,
+      "warnings": 0,
+      "fidelity": 100,
+      "millis": 12940,
+      "inputTokens": 4070,
+      "outputTokens": 2083,
+      "errorMessages": []
+    }
+  ],
+  "counts": {
+    "variables": 8,
+    "rules": 2,
+    "blocks": 11
+  },
+  "template": {
+    "schemaVersion": "1.0",
+    "name": "02-overdue-account-reminder",
+    "source": {
+      "file": "02-overdue-account-reminder.docx",
+      "format": "docx"
+    },
+    "page": {
+      "size": "A4",
+      "orientation": "portrait",
+      "marginsMm": {
+        "top": 25.4,
+        "right": 20,
+        "bottom": 25.4,
+        "left": 20
+      }
+    },
+    "variables": [
+      {
+        "name": "date",
+        "type": "date",
+        "sourceNames": [
+          "Date"
+        ]
+      },
+      {
+        "name": "customerName",
+        "type": "string",
+        "sourceNames": [
+          "Customer Name"
+        ]
+      },
+      {
+        "name": "address",
+        "type": "string",
+        "sourceNames": [
+          "Address"
+        ]
+      },
+      {
+        "name": "accountNo",
+        "type": "string",
+        "sourceNames": [
+          "Account No"
+        ]
+      },
+      {
+        "name": "amountOverdue",
+        "type": "currency",
+        "sourceNames": [
+          "Amount Overdue"
+        ]
+      },
+      {
+        "name": "dueDate",
+        "type": "date",
+        "sourceNames": [
+          "Due Date"
+        ]
+      },
+      {
+        "name": "daysOverdue",
+        "type": "number",
+        "sourceNames": [],
+        "description": "Number of days the account is overdue, counted from the due date to the date of the letter."
+      },
+      {
+        "name": "onHardshipArrangement",
+        "type": "boolean",
+        "sourceNames": [],
+        "description": "True if the customer is on a hardship arrangement."
+      }
+    ],
+    "header": [],
+    "footer": [],
+    "blocks": [
+      {
+        "type": "paragraph",
+        "style": "Heading1",
+        "content": [
+          {
+            "text": "Overdue account reminder"
+          }
+        ]
+      },
+      {
+        "type": "paragraph",
+        "style": "Normal",
+        "content": [
+          {
+            "var": "date"
+          }
+        ]
+      },
+      {
+        "type": "paragraph",
+        "style": "Address",
+        "content": [
+          {
+            "var": "customerName"
+          }
+        ]
+      },
+      {
+        "type": "paragraph",
+        "style": "Address",
+        "content": [
+          {
+            "var": "address"
+          }
+        ]
+      },
+      {
+        "type": "paragraph",
+        "style": "Normal",
+        "content": [
+          {
+            "text": "Account number: ",
+            "bold": true
+          },
+          {
+            "var": "accountNo"
+          }
+        ]
+      },
+      {
+        "type": "paragraph",
+        "style": "Normal",
+        "content": [
+          {
+            "text": "Dear "
+          },
+          {
+            "var": "customerName"
+          },
+          {
+            "text": ","
+          }
+        ]
+      },
+      {
+        "type": "paragraph",
+        "style": "Normal",
+        "content": [
+          {
+            "text": "Our records show that $"
+          },
+          {
+            "var": "amountOverdue"
+          },
+          {
+            "text": " on your account was due on "
+          },
+          {
+            "var": "dueDate"
+          },
+          {
+            "text": " and has not been paid."
+          }
+        ]
+      },
+      {
+        "type": "conditional",
+        "when": {
+          "var": "daysOverdue",
+          "op": "gt",
+          "value": 60
+        },
+        "blocks": [
+          {
+            "type": "conditional",
+            "when": {
+              "var": "onHardshipArrangement",
+              "op": "isTrue"
+            },
+            "blocks": [
+              {
+                "type": "paragraph",
+                "style": "Normal",
+                "content": [
+                  {
+                    "text": "We know you have a payment arrangement with us. This letter is a reminder only."
+                  }
+                ]
+              }
+            ],
+            "else": [
+              {
+                "type": "paragraph",
+                "style": "Normal",
+                "content": [
+                  {
+                    "text": "As your account is now seriously overdue, we may refer it to our collections team if payment is not received within 7 days."
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "type": "paragraph",
+        "style": "Normal",
+        "content": [
+          {
+            "text": "You can pay online at northgate.example/pay or call us on 13 00 00."
+          }
+        ]
+      },
+      {
+        "type": "paragraph",
+        "style": "Normal",
+        "content": [
+          {
+            "text": "Regards,"
+          }
+        ]
+      },
+      {
+        "type": "paragraph",
+        "style": "Normal",
+        "content": [
+          {
+            "text": "Accounts Team",
+            "bold": true
+          }
+        ]
+      }
+    ],
+    "rules": [
+      {
+        "id": "R1",
+        "source": "Include the next paragraph only if the account is more than 60 days overdue",
+        "interpretation": "The collections paragraph is wrapped in a condition that daysOverdue is greater than 60, using a new daysOverdue variable.",
+        "resolution": "conditional",
+        "confidence": 0.9
+      },
+      {
+        "id": "R2",
+        "source": "If the customer is on a hardship arrangement, delete the paragraph above and insert: We know you have a payment arrangement with us. This letter is a reminder only.",
+        "interpretation": "Where the collections paragraph would appear (over 60 days overdue), a new onHardshipArrangement flag swaps it for the reminder-only wording; it is not shown for accounts 60 days or less overdue because there is no paragraph to replace.",
+        "resolution": "conditional",
+        "confidence": 0.75
+      }
+    ]
+  },
+  "renders": [
+    {
+      "name": "All conditions true",
+      "data": {
+        "date": "2026-12-01",
+        "customerName": "Alex Nguyen",
+        "address": "12 Example Street",
+        "accountNo": "100234567",
+        "amountOverdue": 1250.5,
+        "dueDate": "2026-12-15",
+        "daysOverdue": 85,
+        "onHardshipArrangement": true
+      },
+      "html": "\u003Ch1 class=\u0022s-Heading1\u0022\u003EOverdue account reminder\u003C/h1\u003E\u003Cp class=\u0022s-Normal\u0022\u003E\u003Cspan class=\u0022v\u0022\u003E1 December 2026\u003C/span\u003E\u003C/p\u003E\u003Cp class=\u0022s-Address\u0022\u003E\u003Cspan class=\u0022v\u0022\u003EAlex Nguyen\u003C/span\u003E\u003C/p\u003E\u003Cp class=\u0022s-Address\u0022\u003E\u003Cspan class=\u0022v\u0022\u003E12 Example Street\u003C/span\u003E\u003C/p\u003E\u003Cp class=\u0022s-Normal\u0022\u003E\u003Cstrong\u003EAccount number: \u003C/strong\u003E\u003Cspan class=\u0022v\u0022\u003E100234567\u003C/span\u003E\u003C/p\u003E\u003Cp class=\u0022s-Normal\u0022\u003EDear \u003Cspan class=\u0022v\u0022\u003EAlex Nguyen\u003C/span\u003E,\u003C/p\u003E\u003Cp class=\u0022s-Normal\u0022\u003EOur records show that $\u003Cspan class=\u0022v\u0022\u003E1,250.50\u003C/span\u003E on your account was due on \u003Cspan class=\u0022v\u0022\u003E15 December 2026\u003C/span\u003E and has not been paid.\u003C/p\u003E\u003Cp class=\u0022s-Normal\u0022\u003EWe know you have a payment arrangement with us. This letter is a reminder only.\u003C/p\u003E\u003Cp class=\u0022s-Normal\u0022\u003EYou can pay online at northgate.example/pay or call us on 13 00 00.\u003C/p\u003E\u003Cp class=\u0022s-Normal\u0022\u003ERegards,\u003C/p\u003E\u003Cp class=\u0022s-Normal\u0022\u003E\u003Cstrong\u003EAccounts Team\u003C/strong\u003E\u003C/p\u003E"
+    },
+    {
+      "name": "Only: daysOverdue \u003E 60",
+      "data": {
+        "date": "2026-12-01",
+        "customerName": "Alex Nguyen",
+        "address": "12 Example Street",
+        "accountNo": "100234567",
+        "amountOverdue": 1250.5,
+        "dueDate": "2026-12-15",
+        "daysOverdue": 85,
+        "onHardshipArrangement": false
+      },
+      "html": "\u003Ch1 class=\u0022s-Heading1\u0022\u003EOverdue account reminder\u003C/h1\u003E\u003Cp class=\u0022s-Normal\u0022\u003E\u003Cspan class=\u0022v\u0022\u003E1 December 2026\u003C/span\u003E\u003C/p\u003E\u003Cp class=\u0022s-Address\u0022\u003E\u003Cspan class=\u0022v\u0022\u003EAlex Nguyen\u003C/span\u003E\u003C/p\u003E\u003Cp class=\u0022s-Address\u0022\u003E\u003Cspan class=\u0022v\u0022\u003E12 Example Street\u003C/span\u003E\u003C/p\u003E\u003Cp class=\u0022s-Normal\u0022\u003E\u003Cstrong\u003EAccount number: \u003C/strong\u003E\u003Cspan class=\u0022v\u0022\u003E100234567\u003C/span\u003E\u003C/p\u003E\u003Cp class=\u0022s-Normal\u0022\u003EDear \u003Cspan class=\u0022v\u0022\u003EAlex Nguyen\u003C/span\u003E,\u003C/p\u003E\u003Cp class=\u0022s-Normal\u0022\u003EOur records show that $\u003Cspan class=\u0022v\u0022\u003E1,250.50\u003C/span\u003E on your account was due on \u003Cspan class=\u0022v\u0022\u003E15 December 2026\u003C/span\u003E and has not been paid.\u003C/p\u003E\u003Cp class=\u0022s-Normal\u0022\u003EAs your account is now seriously overdue, we may refer it to our collections team if payment is not received within 7 days.\u003C/p\u003E\u003Cp class=\u0022s-Normal\u0022\u003EYou can pay online at northgate.example/pay or call us on 13 00 00.\u003C/p\u003E\u003Cp class=\u0022s-Normal\u0022\u003ERegards,\u003C/p\u003E\u003Cp class=\u0022s-Normal\u0022\u003E\u003Cstrong\u003EAccounts Team\u003C/strong\u003E\u003C/p\u003E"
+    },
+    {
+      "name": "Only: onHardshipArrangement is true",
+      "data": {
+        "date": "2026-12-01",
+        "customerName": "Alex Nguyen",
+        "address": "12 Example Street",
+        "accountNo": "100234567",
+        "amountOverdue": 1250.5,
+        "dueDate": "2026-12-15",
+        "daysOverdue": 35,
+        "onHardshipArrangement": true
+      },
+      "html": "\u003Ch1 class=\u0022s-Heading1\u0022\u003EOverdue account reminder\u003C/h1\u003E\u003Cp class=\u0022s-Normal\u0022\u003E\u003Cspan class=\u0022v\u0022\u003E1 December 2026\u003C/span\u003E\u003C/p\u003E\u003Cp class=\u0022s-Address\u0022\u003E\u003Cspan class=\u0022v\u0022\u003EAlex Nguyen\u003C/span\u003E\u003C/p\u003E\u003Cp class=\u0022s-Address\u0022\u003E\u003Cspan class=\u0022v\u0022\u003E12 Example Street\u003C/span\u003E\u003C/p\u003E\u003Cp class=\u0022s-Normal\u0022\u003E\u003Cstrong\u003EAccount number: \u003C/strong\u003E\u003Cspan class=\u0022v\u0022\u003E100234567\u003C/span\u003E\u003C/p\u003E\u003Cp class=\u0022s-Normal\u0022\u003EDear \u003Cspan class=\u0022v\u0022\u003EAlex Nguyen\u003C/span\u003E,\u003C/p\u003E\u003Cp class=\u0022s-Normal\u0022\u003EOur records show that $\u003Cspan class=\u0022v\u0022\u003E1,250.50\u003C/span\u003E on your account was due on \u003Cspan class=\u0022v\u0022\u003E15 December 2026\u003C/span\u003E and has not been paid.\u003C/p\u003E\u003Cp class=\u0022s-Normal\u0022\u003EYou can pay online at northgate.example/pay or call us on 13 00 00.\u003C/p\u003E\u003Cp class=\u0022s-Normal\u0022\u003ERegards,\u003C/p\u003E\u003Cp class=\u0022s-Normal\u0022\u003E\u003Cstrong\u003EAccounts Team\u003C/strong\u003E\u003C/p\u003E"
+    },
+    {
+      "name": "All conditions false",
+      "data": {
+        "date": "2026-12-01",
+        "customerName": "Alex Nguyen",
+        "address": "12 Example Street",
+        "accountNo": "100234567",
+        "amountOverdue": 1250.5,
+        "dueDate": "2026-12-15",
+        "daysOverdue": 35,
+        "onHardshipArrangement": false
+      },
+      "html": "\u003Ch1 class=\u0022s-Heading1\u0022\u003EOverdue account reminder\u003C/h1\u003E\u003Cp class=\u0022s-Normal\u0022\u003E\u003Cspan class=\u0022v\u0022\u003E1 December 2026\u003C/span\u003E\u003C/p\u003E\u003Cp class=\u0022s-Address\u0022\u003E\u003Cspan class=\u0022v\u0022\u003EAlex Nguyen\u003C/span\u003E\u003C/p\u003E\u003Cp class=\u0022s-Address\u0022\u003E\u003Cspan class=\u0022v\u0022\u003E12 Example Street\u003C/span\u003E\u003C/p\u003E\u003Cp class=\u0022s-Normal\u0022\u003E\u003Cstrong\u003EAccount number: \u003C/strong\u003E\u003Cspan class=\u0022v\u0022\u003E100234567\u003C/span\u003E\u003C/p\u003E\u003Cp class=\u0022s-Normal\u0022\u003EDear \u003Cspan class=\u0022v\u0022\u003EAlex Nguyen\u003C/span\u003E,\u003C/p\u003E\u003Cp class=\u0022s-Normal\u0022\u003EOur records show that $\u003Cspan class=\u0022v\u0022\u003E1,250.50\u003C/span\u003E on your account was due on \u003Cspan class=\u0022v\u0022\u003E15 December 2026\u003C/span\u003E and has not been paid.\u003C/p\u003E\u003Cp class=\u0022s-Normal\u0022\u003EYou can pay online at northgate.example/pay or call us on 13 00 00.\u003C/p\u003E\u003Cp class=\u0022s-Normal\u0022\u003ERegards,\u003C/p\u003E\u003Cp class=\u0022s-Normal\u0022\u003E\u003Cstrong\u003EAccounts Team\u003C/strong\u003E\u003C/p\u003E"
+    }
+  ],
+  "source": {
+    "file": "02-overdue-account-reminder.docx",
+    "format": "docx",
+    "page": {
+      "size": "A4",
+      "orientation": "portrait",
+      "marginsMm": {
+        "top": 25.4,
+        "right": 20,
+        "bottom": 25.4,
+        "left": 20
+      }
+    },
+    "styles": [
+      {
+        "id": "Normal",
+        "name": "Normal",
+        "basedOn": null,
+        "bold": false,
+        "italic": false,
+        "sizePt": 11
+      },
+      {
+        "id": "Heading1",
+        "name": "heading 1",
+        "basedOn": "Normal",
+        "bold": true,
+        "italic": false,
+        "sizePt": 16
+      },
+      {
+        "id": "Heading2",
+        "name": "heading 2",
+        "basedOn": "Normal",
+        "bold": true,
+        "italic": false,
+        "sizePt": 13
+      },
+      {
+        "id": "Address",
+        "name": "Address",
+        "basedOn": "Normal",
+        "bold": false,
+        "italic": false,
+        "sizePt": null
+      },
+      {
+        "id": "SmallPrint",
+        "name": "Small Print",
+        "basedOn": "Normal",
+        "bold": false,
+        "italic": true,
+        "sizePt": 8
+      }
+    ],
+    "header": [],
+    "body": [
+      {
+        "n": 1,
+        "type": "paragraph",
+        "style": "Heading1",
+        "inlines": [
+          {
+            "text": "Overdue account reminder"
+          }
+        ]
+      },
+      {
+        "n": 2,
+        "type": "paragraph",
+        "style": "Normal",
+        "inlines": [
+          {
+            "placeholder": "Date",
+            "raw": "\u003C\u003CDate\u003E\u003E",
+            "convention": "\u003C\u003C\u003E\u003E"
+          }
+        ]
+      },
+      {
+        "n": 3,
+        "type": "paragraph",
+        "style": "Address",
+        "inlines": [
+          {
+            "placeholder": "Customer Name",
+            "raw": "\u003C\u003CCustomer Name\u003E\u003E",
+            "convention": "\u003C\u003C\u003E\u003E"
+          }
+        ]
+      },
+      {
+        "n": 4,
+        "type": "paragraph",
+        "style": "Address",
+        "inlines": [
+          {
+            "placeholder": "Address",
+            "raw": "\u003C\u003CAddress\u003E\u003E",
+            "convention": "\u003C\u003C\u003E\u003E"
+          }
+        ]
+      },
+      {
+        "n": 5,
+        "type": "paragraph",
+        "style": "Normal",
+        "inlines": [
+          {
+            "text": "Account number: ",
+            "bold": true
+          },
+          {
+            "placeholder": "Account No",
+            "raw": "\u003C\u003CAccount No\u003E\u003E",
+            "convention": "\u003C\u003C\u003E\u003E"
+          }
+        ]
+      },
+      {
+        "n": 6,
+        "type": "paragraph",
+        "style": "Normal",
+        "inlines": [
+          {
+            "text": "Dear "
+          },
+          {
+            "placeholder": "Customer Name",
+            "raw": "\u003C\u003CCustomer Name\u003E\u003E",
+            "convention": "\u003C\u003C\u003E\u003E"
+          },
+          {
+            "text": ","
+          }
+        ]
+      },
+      {
+        "n": 7,
+        "type": "paragraph",
+        "style": "Normal",
+        "inlines": [
+          {
+            "text": "Our records show that $"
+          },
+          {
+            "placeholder": "Amount Overdue",
+            "raw": "\u003C\u003CAmount Overdue\u003E\u003E",
+            "convention": "\u003C\u003C\u003E\u003E"
+          },
+          {
+            "text": " on your account was due on "
+          },
+          {
+            "placeholder": "Due Date",
+            "raw": "\u003C\u003CDue Date\u003E\u003E",
+            "convention": "\u003C\u003C\u003E\u003E"
+          },
+          {
+            "text": " and has not been paid."
+          }
+        ]
+      },
+      {
+        "n": 8,
+        "type": "paragraph",
+        "style": "Normal",
+        "inlines": [
+          {
+            "instruction": "Include the next paragraph only if the account is more than 60 days overdue"
+          }
+        ]
+      },
+      {
+        "n": 9,
+        "type": "paragraph",
+        "style": "Normal",
+        "inlines": [
+          {
+            "text": "As your account is now seriously overdue, we may refer it to our collections team if payment is not received within 7 days."
+          }
+        ]
+      },
+      {
+        "n": 10,
+        "type": "paragraph",
+        "style": "Normal",
+        "inlines": [
+          {
+            "instruction": "If the customer is on a hardship arrangement, delete the paragraph above and insert: We know you have a payment arrangement with us. This letter is a reminder only."
+          }
+        ]
+      },
+      {
+        "n": 11,
+        "type": "paragraph",
+        "style": "Normal",
+        "inlines": [
+          {
+            "text": "You can pay online at northgate.example/pay or call us on 13 00 00."
+          }
+        ]
+      },
+      {
+        "n": 12,
+        "type": "paragraph",
+        "style": "Normal",
+        "inlines": [
+          {
+            "text": "Regards,"
+          }
+        ]
+      },
+      {
+        "n": 13,
+        "type": "paragraph",
+        "style": "Normal",
+        "inlines": [
+          {
+            "text": "Accounts Team",
+            "bold": true
+          }
+        ]
+      }
+    ],
+    "footer": []
+  }
+}

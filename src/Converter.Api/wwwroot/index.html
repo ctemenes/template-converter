@@ -1,0 +1,230 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Template Converter</title>
+<style>
+:root{--bg:#f6f5f1;--panel:#fff;--ink:#1c1d1f;--muted:#6a6d73;--line:#e2e0d9;--accent:#0f6b5c;--accent-ink:#fff;
+--ok:#1d7a46;--ok-bg:#e3f3e9;--warn:#8a5a00;--warn-bg:#fbefd2;--bad:#a3261d;--bad-bg:#fbe3e0;
+--field:#1d4f91;--field-bg:#e4edfa;--typed:#6a3a94;--typed-bg:#efe6f8;--note:#8a5a00;--note-bg:#fbefd2;--paper:#fff;--code:#f1efe9}
+@media (prefers-color-scheme:dark){:root{--bg:#151618;--panel:#1d1f22;--ink:#ecebe7;--muted:#9a9da3;--line:#303338;--accent:#4fc2ad;--accent-ink:#08221d;
+--ok:#7fd6a1;--ok-bg:#173524;--warn:#f0c264;--warn-bg:#3a2e12;--bad:#f39a91;--bad-bg:#3c1a17;
+--field:#9cc2f5;--field-bg:#1a2a41;--typed:#cfaaf0;--typed-bg:#2c1f3b;--note:#f0c264;--note-bg:#3a2e12;--paper:#232528;--code:#17181a}}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.5 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+header{display:flex;flex-wrap:wrap;gap:12px;align-items:center;padding:14px 20px;border-bottom:1px solid var(--line);background:var(--panel)}
+header h1{font-size:17px;margin:0;font-weight:650;letter-spacing:-.01em}
+header .sub{color:var(--muted);font-size:13px}
+.spacer{flex:1}
+button,.btn{font:inherit;font-weight:600;padding:8px 14px;border-radius:8px;border:1px solid var(--line);background:var(--panel);color:var(--ink);cursor:pointer}
+button.primary{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
+button:disabled{opacity:.55;cursor:default}
+.badge{font-size:12px;font-weight:600;padding:3px 9px;border-radius:999px;background:var(--code);color:var(--muted);white-space:nowrap}
+main{display:grid;grid-template-columns:300px minmax(0,1fr);min-height:calc(100vh - 62px)}
+aside{border-right:1px solid var(--line);padding:14px;background:var(--panel)}
+aside h2{font-size:12px;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);margin:4px 6px 10px}
+.item{display:block;width:100%;text-align:left;padding:10px 12px;border-radius:10px;border:1px solid transparent;background:none;font-weight:500;margin-bottom:4px}
+.item:hover{background:var(--bg)}
+.item.sel{border-color:var(--accent);background:var(--bg)}
+.item .name{display:block;overflow-wrap:anywhere}
+.item .meta{display:flex;gap:8px;align-items:center;margin-top:5px;font-size:12px;color:var(--muted);font-weight:500}
+.chip{font-size:12px;font-weight:650;padding:2px 8px;border-radius:999px;white-space:nowrap}
+.chip.ok{background:var(--ok-bg);color:var(--ok)}.chip.warn{background:var(--warn-bg);color:var(--warn)}
+.chip.bad{background:var(--bad-bg);color:var(--bad)}.chip.idle{background:var(--code);color:var(--muted)}
+.totals{margin:14px 6px 0;font-size:13px;color:var(--muted)}
+section{padding:18px 22px 40px;min-width:0}
+.empty{color:var(--muted);max-width:52ch;margin:60px auto;text-align:center}
+.top{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin-bottom:6px}
+.top h2{margin:0;font-size:19px;letter-spacing:-.01em;overflow-wrap:anywhere}
+.scores{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;margin:14px 0 16px}
+.score{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:10px 12px}
+.score b{display:block;font-size:21px;font-variant-numeric:tabular-nums;letter-spacing:-.02em}
+.score span{font-size:12px;color:var(--muted)}
+.tabs{display:flex;gap:4px;border-bottom:1px solid var(--line);margin-bottom:16px;overflow-x:auto}
+.tab{border:none;border-bottom:2px solid transparent;border-radius:0;background:none;padding:8px 12px;color:var(--muted);white-space:nowrap}
+.tab.sel{color:var(--ink);border-bottom-color:var(--accent)}
+.cols{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(340px,100%),1fr));gap:18px}
+.col{min-width:0}
+.col h3{font-size:12px;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);margin:0 0 8px;display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.paper{background:var(--paper);border:1px solid var(--line);border-radius:10px;padding:22px 26px;min-height:200px;overflow-x:auto;font-family:Georgia,"Times New Roman",serif;font-size:14.5px;line-height:1.55;overflow-wrap:anywhere}
+.paper h1{font-size:20px;margin:0 0 12px;font-family:inherit}.paper h2{font-size:16px;margin:16px 0 6px;font-family:inherit}
+.paper p{margin:0 0 9px}.paper ul{margin:0 0 9px;padding-left:22px}
+.paper table{border-collapse:collapse;width:100%;margin:6px 0 12px;font-size:13.5px}
+.paper td,.paper th{border:1px solid var(--line);padding:5px 8px;text-align:left;vertical-align:top}
+.paper .s-Address{margin-bottom:2px}.paper .ftr,.paper .hdr{margin-top:18px;padding-top:8px;border-top:1px solid var(--line);font-size:12px;color:var(--muted);font-style:italic}
+.paper hr.pagebreak{border:none;border-top:2px dashed var(--line);margin:18px 0}
+.paper .v{background:var(--field-bg);color:var(--field);border-radius:4px;padding:0 3px}
+.tok{font-family:ui-monospace,Menlo,Consolas,monospace;font-size:12px;border-radius:5px;padding:1px 5px;overflow-wrap:anywhere}
+.tok.field{background:var(--field-bg);color:var(--field)}.tok.typed{background:var(--typed-bg);color:var(--typed)}
+.tok.sys{background:var(--code);color:var(--muted)}
+.instr{display:block;background:var(--note-bg);color:var(--note);border-radius:6px;padding:6px 9px;font-family:system-ui,sans-serif;font-size:13px}
+.iff{display:block;border-left:3px solid var(--field);background:var(--field-bg);border-radius:0 6px 6px 0;padding:6px 10px;margin:2px 0;font-size:13.5px}
+.iff .cond{font-family:ui-monospace,Menlo,Consolas,monospace;font-size:12px;color:var(--field);display:block;margin-bottom:3px}
+.iff .else{display:block;margin-top:4px;padding-top:4px;border-top:1px dashed var(--line)}
+.legend{display:flex;flex-wrap:wrap;gap:8px;font-size:12px;color:var(--muted);margin:10px 0 0}
+.seg{display:inline-flex;flex-wrap:wrap;border:1px solid var(--line);border-radius:8px;overflow:hidden;text-transform:none;letter-spacing:0}
+.seg button{border:none;border-radius:0;padding:4px 10px;font-size:12px;background:var(--panel);color:var(--muted)}
+.seg button.sel{background:var(--accent);color:var(--accent-ink)}
+pre{background:var(--code);border:1px solid var(--line);border-radius:10px;padding:14px;overflow:auto;font:12.5px/1.5 ui-monospace,Menlo,Consolas,monospace;max-height:70vh;margin:0}
+table.grid{width:100%;border-collapse:collapse;background:var(--panel);border:1px solid var(--line);border-radius:10px;overflow:hidden;font-size:14px}
+table.grid th{text-align:left;font-size:12px;text-transform:uppercase;letter-spacing:.05em;color:var(--muted);padding:9px 12px;border-bottom:1px solid var(--line)}
+table.grid td{padding:9px 12px;border-bottom:1px solid var(--line);vertical-align:top;overflow-wrap:anywhere}
+table.grid tr:last-child td{border-bottom:none}
+.wrap{overflow-x:auto}
+.mono{font-family:ui-monospace,Menlo,Consolas,monospace;font-size:12.5px}
+h4{margin:22px 0 8px;font-size:14px}
+.note{color:var(--muted);font-size:13px;margin:8px 0 0}
+@media (max-width:800px){main{grid-template-columns:1fr}aside{border-right:none;border-bottom:1px solid var(--line)}section{padding:16px}}
+</style>
+</head>
+<body>
+<header>
+  <div><h1>Template Converter</h1><div class="sub">Legacy Word templates to a structured template format, checked before it counts</div></div>
+  <span class="spacer"></span>
+  <span class="badge" id="mode">mode</span>
+  <label class="btn">Convert a .docx<input id="file" type="file" accept=".docx" hidden></label>
+  <button class="primary" id="all">Convert all samples</button>
+</header>
+<main>
+  <aside>
+    <h2>Templates</h2>
+    <div id="list"></div>
+    <div class="totals" id="totals"></div>
+  </aside>
+  <section id="detail"><p class="empty">Pick a template on the left, or convert all six samples. Each one is read, mapped, checked against its source and rendered with sample data before it is marked as converted.</p></section>
+</main>
+<script>
+const $ = (s, el = document) => el.querySelector(s);
+const esc = s => String(s ?? '').replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const state = { samples: [], summaries: {}, results: {}, selected: null, tab: 'compare', variant: 0, busy: {} };
+const chipClass = s => s === 'Converted' ? 'ok' : s === 'Needs review' ? 'warn' : s ? 'bad' : 'idle';
+
+async function init() {
+  const info = await (await fetch('/api/info')).json();
+  state.samples = info.samples;
+  $('#mode').textContent = info.mode === 'rules' ? 'Rules only (no model key set)' : 'Model: ' + info.mode.replace('llm:', '');
+  for (const s of info.converted) state.summaries[s.file] = s;
+  renderList();
+}
+
+function renderList() {
+  const names = [...new Set([...state.samples, ...Object.keys(state.summaries)])];
+  $('#list').innerHTML = names.map(n => {
+    const s = state.summaries[n];
+    const label = state.busy[n] ? 'Converting' : s ? s.status : 'Not converted';
+    return `<button class="item ${state.selected === n ? 'sel' : ''}" data-name="${esc(n)}"><span class="name">${esc(n)}</span>
+      <span class="meta"><span class="chip ${state.busy[n] ? 'idle' : chipClass(s?.status)}">${label}</span>${s ? `<span>${s.fidelity.toFixed(1)}%</span><span>${s.mapper === 'rules' ? 'rules' : 'model'}</span>` : ''}</span></button>`;
+  }).join('');
+  const all = Object.values(state.summaries);
+  $('#totals').textContent = all.length ? `${all.filter(s => s.status === 'Converted').length} converted, ${all.filter(s => s.status === 'Needs review').length} need review, ${all.filter(s => !['Converted', 'Needs review'].includes(s.status)).length} failed` : '';
+  document.querySelectorAll('.item').forEach(b => b.onclick = () => select(b.dataset.name));
+}
+
+async function select(name) {
+  state.selected = name; state.variant = 0; renderList();
+  if (!state.results[name]) {
+    if (state.summaries[name]) state.results[name] = await (await fetch('/api/results/' + encodeURIComponent(name))).json();
+    else return convert(name);
+  }
+  renderDetail();
+}
+
+async function convert(name) {
+  state.busy[name] = true; renderList();
+  $('#detail').innerHTML = `<p class="empty">Converting ${esc(name)}.</p>`;
+  const r = await (await fetch('/api/convert/sample/' + encodeURIComponent(name), { method: 'POST' })).json();
+  delete state.busy[name]; store(r); renderList(); if (state.selected === name) renderDetail();
+}
+
+function store(r) {
+  state.results[r.file] = r;
+  state.summaries[r.file] = { file: r.file, status: r.status, fidelity: r.fidelity, mapper: r.mapper };
+}
+
+$('#all').onclick = async () => {
+  const btn = $('#all'); btn.disabled = true; btn.textContent = 'Converting';
+  state.samples.forEach(n => state.busy[n] = true); renderList();
+  const { jobId } = await (await fetch('/api/batch/samples', { method: 'POST' })).json();
+  for (;;) {
+    await new Promise(r => setTimeout(r, 900));
+    const job = await (await fetch('/api/jobs/' + jobId)).json();
+    for (const s of job.results) { state.summaries[s.file] = s; delete state.busy[s.file]; delete state.results[s.file]; }
+    btn.textContent = `Converting ${job.done} of ${job.total}`; renderList();
+    if (job.finished) break;
+  }
+  state.busy = {}; btn.disabled = false; btn.textContent = 'Convert all samples'; renderList();
+  select(state.selected || state.samples[0]);
+};
+
+$('#file').onchange = async e => {
+  const f = e.target.files[0]; if (!f) return;
+  state.selected = f.name; state.busy[f.name] = true; renderList();
+  $('#detail').innerHTML = `<p class="empty">Converting ${esc(f.name)}.</p>`;
+  const res = await fetch('/api/convert', { method: 'POST', headers: { 'X-File-Name': encodeURIComponent(f.name) }, body: f });
+  const r = await res.json(); delete state.busy[f.name];
+  if (r.error && !r.file) { $('#detail').innerHTML = `<p class="empty">${esc(r.error)}</p>`; renderList(); return; }
+  store(r); renderList(); renderDetail(); e.target.value = '';
+};
+
+// ---- source view: what is physically in the legacy file ----
+function inl(items) {
+  return (items || []).map(i => {
+    if (i.text !== undefined) { let t = esc(i.text); if (i.bold) t = `<strong>${t}</strong>`; if (i.italic) t = `<em>${t}</em>`; return t; }
+    if (i.mergeField) return `<span class="tok field" title="Word merge field${i.format ? ', format ' + esc(i.format) : ''}">«${esc(i.mergeField)}»</span>`;
+    if (i.placeholder) return `<span class="tok typed" title="Typed by hand, convention ${esc(i.convention)}">${esc(i.raw)}</span>`;
+    if (i.systemField) return `<span class="tok sys">${esc(i.systemField)}</span>`;
+    if (i.repeatStart) return `<span class="tok sys" title="Row repeats from here">repeat ${esc(i.repeatStart)}</span> `;
+    if (i.repeatEnd) return ` <span class="tok sys">end repeat</span>`;
+    if (i.instruction) return `<span class="instr">[${esc(i.instruction)}]</span>`;
+    if (i.ifField) { const f = i.ifField; return `<span class="iff"><span class="cond">IF ${esc(f.left)} ${esc(f.op)} "${esc(f.right)}"</span>${inl(f.whenTrue)}${f.whenFalse.length ? `<span class="else"><span class="cond">ELSE</span>${inl(f.whenFalse)}</span>` : ''}</span>`; }
+    return '';
+  }).join('');
+}
+function srcBlocks(blocks) {
+  let html = '', inList = false;
+  for (const b of blocks || []) {
+    if (inList && !(b.type === 'paragraph' && b.listItem)) { html += '</ul>'; inList = false; }
+    if (b.type === 'table') { html += '<table>' + b.rows.map((r, n) => '<tr>' + r.map(c => `<${n ? 'td' : 'th'}>${c.map(p => inl(p.inlines)).join('<br>')}</${n ? 'td' : 'th'}>`).join('') + '</tr>').join('') + '</table>'; continue; }
+    if (b.pageBreakBefore) html += '<hr class="pagebreak">';
+    if (b.listItem) { if (!inList) { html += '<ul>'; inList = true; } html += `<li>${inl(b.inlines)}</li>`; continue; }
+    const tag = /^Heading1/i.test(b.style) ? 'h1' : /^Heading/i.test(b.style) ? 'h2' : 'p';
+    html += `<${tag} class="s-${esc(b.style)}">${inl(b.inlines)}</${tag}>`;
+  }
+  return html + (inList ? '</ul>' : '');
+}
+
+function renderDetail() {
+  const r = state.results[state.selected]; if (!r) return;
+  const sc = r.scores || {}; const pct = x => x === undefined ? '-' : (x * 100).toFixed(x === 1 ? 0 : 1) + '%';
+  const tabs = [['compare', 'Before and after'], ['rules', `Rules (${r.template?.rules?.length ?? 0})`], ['checks', 'Checks'], ['json', 'Template JSON']];
+  let body = '';
+  if (r.status === 'Unreadable') body = `<p class="empty">${esc(r.error)}</p>`;
+  else if (state.tab === 'compare') {
+    const v = r.renders || [];
+    body = `<div class="cols"><div class="col"><h3>Legacy template, as read</h3><div class="paper">${srcBlocks(r.source.header)}${srcBlocks(r.source.body)}${r.source.footer.length ? `<div class="ftr">${srcBlocks(r.source.footer)}</div>` : ''}</div>
+      <div class="legend"><span><span class="tok field">«field»</span> Word merge field</span><span><span class="tok typed">&lt;&lt;typed&gt;&gt;</span> typed by hand</span><span class="instr" style="display:inline">[note to the writer]</span></div></div>
+      <div class="col"><h3>Converted template, rendered ${v.length > 1 ? `<span class="seg">${v.map((x, i) => `<button class="${i === state.variant ? 'sel' : ''}" data-v="${i}">${esc(x.name)}</button>`).join('')}</span>` : ''}</h3>
+      ${v.length ? `<div class="paper">${v[state.variant].html}</div><p class="note">Rendered from the converted template with generated sample data. Highlighted values are variables.</p>` : `<p class="note">Not rendered because the template failed its checks. See the Checks tab.</p>`}</div></div>`;
+  } else if (state.tab === 'rules') {
+    const rules = r.template?.rules || [];
+    body = rules.length ? `<div class="wrap"><table class="grid"><tr><th>Instruction in the source</th><th>What was done with it</th><th>Outcome</th><th>Confidence</th></tr>${rules.map(x => `<tr><td>${esc(x.source)}</td><td>${esc(x.interpretation)}</td><td><span class="chip ${x.resolution === 'needs-review' ? 'warn' : 'ok'}">${esc(x.resolution)}</span></td><td>${x.confidence === undefined ? '' : Math.round(x.confidence * 100) + '%'}</td></tr>`).join('')}</table></div>` : '<p class="note">This template has no written instructions. Its fields and IF logic converted directly.</p>';
+    const vars = r.template?.variables || [];
+    body += `<h4>Variables (${vars.length})</h4><div class="wrap"><table class="grid"><tr><th>Name</th><th>Type</th><th>Name in the source</th><th>Format or note</th></tr>${vars.map(x => `<tr><td class="mono">${esc(x.name)}${x.fields ? '<br>' + x.fields.map(f => '&nbsp;&nbsp;.' + esc(f.name)).join('<br>') : ''}</td><td>${esc(x.type)}</td><td class="mono">${(x.sourceNames || []).map(esc).join(', ') || '<span style="font-family:system-ui">new, from an instruction</span>'}</td><td>${esc(x.format || x.description || '')}</td></tr>`).join('')}</table></div>`;
+  } else if (state.tab === 'checks') {
+    const f = r.findings || [];
+    body = `<div class="wrap"><table class="grid"><tr><th>Step</th><th>Mapper</th><th>Errors</th><th>Fidelity</th><th>Time</th><th>Tokens in / out</th></tr>${(r.attempts || []).map(a => `<tr><td>${a.number === 0 ? 'Rule-based pass' : 'Model attempt ' + a.number}</td><td class="mono">${esc(a.mapper)}</td><td>${a.errors ? `<span class="chip bad">${a.errors}</span>` : '<span class="chip ok">0</span>'}${a.errorMessages.length ? '<div class="note">' + a.errorMessages.map(esc).join('<br>') + '</div>' : ''}</td><td>${a.fidelity.toFixed(1)}%</td><td>${a.millis} ms</td><td>${a.inputTokens ?? '-'} / ${a.outputTokens ?? '-'}</td></tr>`).join('')}</table></div>
+      <h4>Findings on the accepted template</h4>${f.length ? `<div class="wrap"><table class="grid"><tr><th>Level</th><th>Check</th><th>Detail</th></tr>${f.map(x => `<tr><td><span class="chip ${x.severity === 'error' ? 'bad' : x.severity === 'warning' ? 'warn' : 'idle'}">${x.severity}</span></td><td>${esc(x.check)}</td><td>${esc(x.message)}</td></tr>`).join('')}</table></div>` : '<p class="note">No findings. Every check passed with nothing to flag.</p>'}`;
+  } else body = `<pre>${esc(JSON.stringify(r.template, null, 2))}</pre>`;
+
+  $('#detail').innerHTML = `<div class="top"><h2>${esc(r.file)}</h2><span class="chip ${chipClass(r.status)}">${esc(r.status)}</span><span class="badge">${r.mapper === 'rules' ? 'rule-based pass' : esc(r.mapper.replace('llm:', ''))}</span><span class="spacer"></span><button id="again">Convert again</button></div>
+    <div class="scores"><div class="score"><b>${(r.fidelity ?? 0).toFixed(1)}%</b><span>Fidelity score</span></div><div class="score"><b>${pct(sc.wordsKept)}</b><span>Source wording kept</span></div><div class="score"><b>${pct(sc.fieldsBound)}</b><span>Fields bound to variables</span></div><div class="score"><b>${pct(sc.logicAccountedFor)}</b><span>Logic accounted for</span></div><div class="score"><b>${sc.needsReview ?? 0}</b><span>Items for a person to review</span></div></div>
+    <div class="tabs">${tabs.map(([k, l]) => `<button class="tab ${state.tab === k ? 'sel' : ''}" data-tab="${k}">${l}</button>`).join('')}</div>${body}`;
+  document.querySelectorAll('.tab').forEach(b => b.onclick = () => { state.tab = b.dataset.tab; renderDetail(); });
+  document.querySelectorAll('[data-v]').forEach(b => b.onclick = () => { state.variant = +b.dataset.v; renderDetail(); });
+  $('#again').onclick = () => convert(r.file);
+}
+init();
+</script>
+</body>
+</html>

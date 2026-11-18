@@ -1,0 +1,177 @@
+{
+  "schemaVersion": "1.0",
+  "name": "06-fee-change-notice",
+  "source": {
+    "file": "06-fee-change-notice.docx",
+    "format": "docx"
+  },
+  "page": {
+    "size": "A4",
+    "orientation": "portrait",
+    "marginsMm": {
+      "top": 25.4,
+      "right": 20,
+      "bottom": 25.4,
+      "left": 20
+    }
+  },
+  "variables": [
+    {
+      "name": "letterDate",
+      "type": "date",
+      "sourceNames": [
+        "Letter_Date"
+      ],
+      "format": "d MMMM yyyy"
+    },
+    {
+      "name": "firstName",
+      "type": "string",
+      "sourceNames": [
+        "First_Name"
+      ]
+    },
+    {
+      "name": "effectiveDate",
+      "type": "date",
+      "sourceNames": [
+        "Effective_Date"
+      ],
+      "format": "d MMMM yyyy"
+    },
+    {
+      "name": "planName",
+      "type": "string",
+      "sourceNames": [
+        "Plan_Name"
+      ]
+    },
+    {
+      "name": "oldFee",
+      "type": "currency",
+      "sourceNames": [
+        "Old_Fee"
+      ],
+      "format": "$#,##0.00"
+    },
+    {
+      "name": "newFee",
+      "type": "currency",
+      "sourceNames": [
+        "New_Fee"
+      ],
+      "format": "$#,##0.00"
+    }
+  ],
+  "header": [],
+  "footer": [],
+  "blocks": [
+    {
+      "type": "paragraph",
+      "style": "Heading1",
+      "content": [
+        {
+          "text": "Changes to your account fees"
+        }
+      ]
+    },
+    {
+      "type": "paragraph",
+      "style": "Normal",
+      "content": [
+        {
+          "var": "letterDate",
+          "format": "d MMMM yyyy"
+        }
+      ]
+    },
+    {
+      "type": "paragraph",
+      "style": "Normal",
+      "content": [
+        {
+          "text": "Dear "
+        },
+        {
+          "var": "firstName"
+        },
+        {
+          "text": ","
+        }
+      ]
+    },
+    {
+      "type": "paragraph",
+      "style": "Normal",
+      "content": [
+        {
+          "text": "From "
+        },
+        {
+          "var": "effectiveDate",
+          "format": "d MMMM yyyy"
+        },
+        {
+          "text": " the monthly fee on your "
+        },
+        {
+          "var": "planName"
+        },
+        {
+          "text": " plan will change from "
+        },
+        {
+          "var": "oldFee",
+          "format": "$#,##0.00"
+        },
+        {
+          "text": " to "
+        },
+        {
+          "var": "newFee",
+          "format": "$#,##0.00"
+        },
+        {
+          "text": "."
+        }
+      ]
+    },
+    {
+      "type": "paragraph",
+      "style": "Normal",
+      "content": [
+        {
+          "text": "If you would like to talk about other plans, call us on 13 00 00."
+        }
+      ]
+    },
+    {
+      "type": "paragraph",
+      "style": "Normal",
+      "content": [
+        {
+          "text": "Regards,"
+        }
+      ]
+    },
+    {
+      "type": "paragraph",
+      "style": "Normal",
+      "content": [
+        {
+          "text": "Customer Care Team",
+          "bold": true
+        }
+      ]
+    }
+  ],
+  "rules": [
+    {
+      "id": "R1",
+      "source": "Check with Legal which wording applies to grandfathered plans before sending",
+      "interpretation": "The reviewer must confirm with Legal what wording applies to grandfathered plans, and whether the letter needs extra or different text for them, and how to tell from the document that a plan is grandfathered; no wording is given in the source, so the text is left unconditional and the instruction is not printed.",
+      "resolution": "needs-review",
+      "confidence": 0.9
+    }
+  ]
+}

@@ -1,0 +1,417 @@
+{
+  "file": "06-fee-change-notice.docx",
+  "status": "Needs review",
+  "mapper": "llm:claude-sonnet-5-5",
+  "fidelity": 100,
+  "millis": 4974,
+  "error": null,
+  "scores": {
+    "wordsKept": 1,
+    "wordsNotInvented": 1,
+    "fieldsBound": 1,
+    "logicAccountedFor": 1,
+    "needsReview": 1
+  },
+  "findings": [
+    {
+      "severity": "warning",
+      "check": "review",
+      "message": "A person needs to decide: \u0022Check with Legal which wording applies to grandfathered plans before sending\u0022. The reviewer must confirm with Legal what wording applies to grandfathered plans, and whether the letter needs extra or different text for them, and how to tell from the document that a plan is grandfathered; no wording is given in the source, so the text is left unconditional and the instruction is not printed."
+    }
+  ],
+  "attempts": [
+    {
+      "number": 0,
+      "mapper": "rules",
+      "errors": 0,
+      "warnings": 1,
+      "fidelity": 100,
+      "millis": 0,
+      "inputTokens": null,
+      "outputTokens": null,
+      "errorMessages": []
+    },
+    {
+      "number": 1,
+      "mapper": "llm:claude-sonnet-5-5",
+      "errors": 0,
+      "warnings": 1,
+      "fidelity": 100,
+      "millis": 4972,
+      "inputTokens": 3390,
+      "outputTokens": 930,
+      "errorMessages": []
+    }
+  ],
+  "counts": {
+    "variables": 6,
+    "rules": 1,
+    "blocks": 7
+  },
+  "template": {
+    "schemaVersion": "1.0",
+    "name": "06-fee-change-notice",
+    "source": {
+      "file": "06-fee-change-notice.docx",
+      "format": "docx"
+    },
+    "page": {
+      "size": "A4",
+      "orientation": "portrait",
+      "marginsMm": {
+        "top": 25.4,
+        "right": 20,
+        "bottom": 25.4,
+        "left": 20
+      }
+    },
+    "variables": [
+      {
+        "name": "letterDate",
+        "type": "date",
+        "sourceNames": [
+          "Letter_Date"
+        ],
+        "format": "d MMMM yyyy"
+      },
+      {
+        "name": "firstName",
+        "type": "string",
+        "sourceNames": [
+          "First_Name"
+        ]
+      },
+      {
+        "name": "effectiveDate",
+        "type": "date",
+        "sourceNames": [
+          "Effective_Date"
+        ],
+        "format": "d MMMM yyyy"
+      },
+      {
+        "name": "planName",
+        "type": "string",
+        "sourceNames": [
+          "Plan_Name"
+        ]
+      },
+      {
+        "name": "oldFee",
+        "type": "currency",
+        "sourceNames": [
+          "Old_Fee"
+        ],
+        "format": "$#,##0.00"
+      },
+      {
+        "name": "newFee",
+        "type": "currency",
+        "sourceNames": [
+          "New_Fee"
+        ],
+        "format": "$#,##0.00"
+      }
+    ],
+    "header": [],
+    "footer": [],
+    "blocks": [
+      {
+        "type": "paragraph",
+        "style": "Heading1",
+        "content": [
+          {
+            "text": "Changes to your account fees"
+          }
+        ]
+      },
+      {
+        "type": "paragraph",
+        "style": "Normal",
+        "content": [
+          {
+            "var": "letterDate",
+            "format": "d MMMM yyyy"
+          }
+        ]
+      },
+      {
+        "type": "paragraph",
+        "style": "Normal",
+        "content": [
+          {
+            "text": "Dear "
+          },
+          {
+            "var": "firstName"
+          },
+          {
+            "text": ","
+          }
+        ]
+      },
+      {
+        "type": "paragraph",
+        "style": "Normal",
+        "content": [
+          {
+            "text": "From "
+          },
+          {
+            "var": "effectiveDate",
+            "format": "d MMMM yyyy"
+          },
+          {
+            "text": " the monthly fee on your "
+          },
+          {
+            "var": "planName"
+          },
+          {
+            "text": " plan will change from "
+          },
+          {
+            "var": "oldFee",
+            "format": "$#,##0.00"
+          },
+          {
+            "text": " to "
+          },
+          {
+            "var": "newFee",
+            "format": "$#,##0.00"
+          },
+          {
+            "text": "."
+          }
+        ]
+      },
+      {
+        "type": "paragraph",
+        "style": "Normal",
+        "content": [
+          {
+            "text": "If you would like to talk about other plans, call us on 13 00 00."
+          }
+        ]
+      },
+      {
+        "type": "paragraph",
+        "style": "Normal",
+        "content": [
+          {
+            "text": "Regards,"
+          }
+        ]
+      },
+      {
+        "type": "paragraph",
+        "style": "Normal",
+        "content": [
+          {
+            "text": "Customer Care Team",
+            "bold": true
+          }
+        ]
+      }
+    ],
+    "rules": [
+      {
+        "id": "R1",
+        "source": "Check with Legal which wording applies to grandfathered plans before sending",
+        "interpretation": "The reviewer must confirm with Legal what wording applies to grandfathered plans, and whether the letter needs extra or different text for them, and how to tell from the document that a plan is grandfathered; no wording is given in the source, so the text is left unconditional and the instruction is not printed.",
+        "resolution": "needs-review",
+        "confidence": 0.9
+      }
+    ]
+  },
+  "renders": [
+    {
+      "name": "Sample data",
+      "data": {
+        "letterDate": "2026-12-01",
+        "firstName": "Alex",
+        "effectiveDate": "2026-12-01",
+        "planName": "Everyday",
+        "oldFee": 70.5,
+        "newFee": 70.5
+      },
+      "html": "\u003Ch1 class=\u0022s-Heading1\u0022\u003EChanges to your account fees\u003C/h1\u003E\u003Cp class=\u0022s-Normal\u0022\u003E\u003Cspan class=\u0022v\u0022\u003E1 December 2026\u003C/span\u003E\u003C/p\u003E\u003Cp class=\u0022s-Normal\u0022\u003EDear \u003Cspan class=\u0022v\u0022\u003EAlex\u003C/span\u003E,\u003C/p\u003E\u003Cp class=\u0022s-Normal\u0022\u003EFrom \u003Cspan class=\u0022v\u0022\u003E1 December 2026\u003C/span\u003E the monthly fee on your \u003Cspan class=\u0022v\u0022\u003EEveryday\u003C/span\u003E plan will change from \u003Cspan class=\u0022v\u0022\u003E$70.50\u003C/span\u003E to \u003Cspan class=\u0022v\u0022\u003E$70.50\u003C/span\u003E.\u003C/p\u003E\u003Cp class=\u0022s-Normal\u0022\u003EIf you would like to talk about other plans, call us on 13 00 00.\u003C/p\u003E\u003Cp class=\u0022s-Normal\u0022\u003ERegards,\u003C/p\u003E\u003Cp class=\u0022s-Normal\u0022\u003E\u003Cstrong\u003ECustomer Care Team\u003C/strong\u003E\u003C/p\u003E"
+    }
+  ],
+  "source": {
+    "file": "06-fee-change-notice.docx",
+    "format": "docx",
+    "page": {
+      "size": "A4",
+      "orientation": "portrait",
+      "marginsMm": {
+        "top": 25.4,
+        "right": 20,
+        "bottom": 25.4,
+        "left": 20
+      }
+    },
+    "styles": [
+      {
+        "id": "Normal",
+        "name": "Normal",
+        "basedOn": null,
+        "bold": false,
+        "italic": false,
+        "sizePt": 11
+      },
+      {
+        "id": "Heading1",
+        "name": "heading 1",
+        "basedOn": "Normal",
+        "bold": true,
+        "italic": false,
+        "sizePt": 16
+      },
+      {
+        "id": "Heading2",
+        "name": "heading 2",
+        "basedOn": "Normal",
+        "bold": true,
+        "italic": false,
+        "sizePt": 13
+      },
+      {
+        "id": "Address",
+        "name": "Address",
+        "basedOn": "Normal",
+        "bold": false,
+        "italic": false,
+        "sizePt": null
+      },
+      {
+        "id": "SmallPrint",
+        "name": "Small Print",
+        "basedOn": "Normal",
+        "bold": false,
+        "italic": true,
+        "sizePt": 8
+      }
+    ],
+    "header": [],
+    "body": [
+      {
+        "n": 1,
+        "type": "paragraph",
+        "style": "Heading1",
+        "inlines": [
+          {
+            "text": "Changes to your account fees"
+          }
+        ]
+      },
+      {
+        "n": 2,
+        "type": "paragraph",
+        "style": "Normal",
+        "inlines": [
+          {
+            "mergeField": "Letter_Date",
+            "format": "d MMMM yyyy"
+          }
+        ]
+      },
+      {
+        "n": 3,
+        "type": "paragraph",
+        "style": "Normal",
+        "inlines": [
+          {
+            "text": "Dear "
+          },
+          {
+            "mergeField": "First_Name"
+          },
+          {
+            "text": ","
+          }
+        ]
+      },
+      {
+        "n": 4,
+        "type": "paragraph",
+        "style": "Normal",
+        "inlines": [
+          {
+            "text": "From "
+          },
+          {
+            "mergeField": "Effective_Date",
+            "format": "d MMMM yyyy"
+          },
+          {
+            "text": " the monthly fee on your "
+          },
+          {
+            "mergeField": "Plan_Name"
+          },
+          {
+            "text": " plan will change from "
+          },
+          {
+            "mergeField": "Old_Fee",
+            "format": "$#,##0.00"
+          },
+          {
+            "text": " to "
+          },
+          {
+            "mergeField": "New_Fee",
+            "format": "$#,##0.00"
+          },
+          {
+            "text": "."
+          }
+        ]
+      },
+      {
+        "n": 5,
+        "type": "paragraph",
+        "style": "Normal",
+        "inlines": [
+          {
+            "instruction": "Check with Legal which wording applies to grandfathered plans before sending"
+          }
+        ]
+      },
+      {
+        "n": 6,
+        "type": "paragraph",
+        "style": "Normal",
+        "inlines": [
+          {
+            "text": "If you would like to talk about other plans, call us on 13 00 00."
+          }
+        ]
+      },
+      {
+        "n": 7,
+        "type": "paragraph",
+        "style": "Normal",
+        "inlines": [
+          {
+            "text": "Regards,"
+          }
+        ]
+      },
+      {
+        "n": 8,
+        "type": "paragraph",
+        "style": "Normal",
+        "inlines": [
+          {
+            "text": "Customer Care Team",
+            "bold": true
+          }
+        ]
+      }
+    ],
+    "footer": []
+  }
+}

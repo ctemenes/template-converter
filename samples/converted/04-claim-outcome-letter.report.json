@@ -1,0 +1,572 @@
+{
+  "file": "04-claim-outcome-letter.docx",
+  "status": "Converted",
+  "mapper": "llm:claude-sonnet-5-5",
+  "fidelity": 98.9,
+  "millis": 8927,
+  "error": null,
+  "scores": {
+    "wordsKept": 0.9737,
+    "wordsNotInvented": 1,
+    "fieldsBound": 1,
+    "logicAccountedFor": 1,
+    "needsReview": 0
+  },
+  "findings": [
+    {
+      "severity": "info",
+      "check": "wording",
+      "message": "Source words not carried into the template: a, b."
+    }
+  ],
+  "attempts": [
+    {
+      "number": 0,
+      "mapper": "rules",
+      "errors": 0,
+      "warnings": 1,
+      "fidelity": 100,
+      "millis": 1,
+      "inputTokens": null,
+      "outputTokens": null,
+      "errorMessages": []
+    },
+    {
+      "number": 1,
+      "mapper": "llm:claude-sonnet-5-5",
+      "errors": 0,
+      "warnings": 0,
+      "fidelity": 98.9,
+      "millis": 8925,
+      "inputTokens": 4007,
+      "outputTokens": 1557,
+      "errorMessages": []
+    }
+  ],
+  "counts": {
+    "variables": 11,
+    "rules": 1,
+    "blocks": 8
+  },
+  "template": {
+    "schemaVersion": "1.0",
+    "name": "04-claim-outcome-letter",
+    "source": {
+      "file": "04-claim-outcome-letter.docx",
+      "format": "docx"
+    },
+    "page": {
+      "size": "A4",
+      "orientation": "portrait",
+      "marginsMm": {
+        "top": 25.4,
+        "right": 20,
+        "bottom": 25.4,
+        "left": 20
+      }
+    },
+    "variables": [
+      {
+        "name": "claimNumber",
+        "type": "string",
+        "sourceNames": [
+          "claim_number"
+        ]
+      },
+      {
+        "name": "date",
+        "type": "date",
+        "sourceNames": [
+          "DATE"
+        ]
+      },
+      {
+        "name": "customerFirstName",
+        "type": "string",
+        "sourceNames": [
+          "Customer First Name"
+        ]
+      },
+      {
+        "name": "lossType",
+        "type": "string",
+        "sourceNames": [
+          "loss_type"
+        ]
+      },
+      {
+        "name": "lossDate",
+        "type": "date",
+        "sourceNames": [
+          "loss_date"
+        ]
+      },
+      {
+        "name": "settlementAmount",
+        "type": "currency",
+        "sourceNames": [
+          "settlement_amount"
+        ]
+      },
+      {
+        "name": "excess",
+        "type": "currency",
+        "sourceNames": [
+          "excess"
+        ]
+      },
+      {
+        "name": "declineReason",
+        "type": "string",
+        "sourceNames": [
+          "decline_reason"
+        ]
+      },
+      {
+        "name": "consultantName",
+        "type": "string",
+        "sourceNames": [
+          "Consultant Name"
+        ]
+      },
+      {
+        "name": "consultantPhone",
+        "type": "string",
+        "sourceNames": [
+          "Consultant Phone"
+        ]
+      },
+      {
+        "name": "claimApproved",
+        "type": "boolean",
+        "sourceNames": [],
+        "description": "True if the claim was approved, false if it was declined."
+      }
+    ],
+    "header": [],
+    "footer": [],
+    "blocks": [
+      {
+        "type": "paragraph",
+        "style": "Heading1",
+        "content": [
+          {
+            "text": "Outcome of your claim "
+          },
+          {
+            "var": "claimNumber"
+          }
+        ]
+      },
+      {
+        "type": "paragraph",
+        "style": "Normal",
+        "content": [
+          {
+            "var": "date"
+          }
+        ]
+      },
+      {
+        "type": "paragraph",
+        "style": "Normal",
+        "content": [
+          {
+            "text": "Dear "
+          },
+          {
+            "var": "customerFirstName"
+          },
+          {
+            "text": ","
+          }
+        ]
+      },
+      {
+        "type": "paragraph",
+        "style": "Normal",
+        "content": [
+          {
+            "text": "We have finished assessing your claim for "
+          },
+          {
+            "var": "lossType"
+          },
+          {
+            "text": " on "
+          },
+          {
+            "var": "lossDate"
+          },
+          {
+            "text": "."
+          }
+        ]
+      },
+      {
+        "type": "conditional",
+        "when": {
+          "var": "claimApproved",
+          "op": "isTrue"
+        },
+        "blocks": [
+          {
+            "type": "paragraph",
+            "style": "Normal",
+            "content": [
+              {
+                "text": "We are pleased to confirm your claim has been approved. We will pay $"
+              },
+              {
+                "var": "settlementAmount"
+              },
+              {
+                "text": " to your nominated account within 5 business days, less your excess of $"
+              },
+              {
+                "var": "excess"
+              },
+              {
+                "text": "."
+              }
+            ]
+          }
+        ],
+        "else": [
+          {
+            "type": "paragraph",
+            "style": "Normal",
+            "content": [
+              {
+                "text": "Unfortunately we are unable to accept your claim. The reason is: "
+              },
+              {
+                "var": "declineReason"
+              },
+              {
+                "text": ". You can ask for a review of this decision within 30 days."
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "type": "paragraph",
+        "style": "Normal",
+        "content": [
+          {
+            "text": "Your claims consultant is "
+          },
+          {
+            "var": "consultantName"
+          },
+          {
+            "text": ", who you can reach on "
+          },
+          {
+            "var": "consultantPhone"
+          },
+          {
+            "text": "."
+          }
+        ]
+      },
+      {
+        "type": "paragraph",
+        "style": "Normal",
+        "content": [
+          {
+            "text": "Yours sincerely,"
+          }
+        ]
+      },
+      {
+        "type": "paragraph",
+        "style": "Normal",
+        "content": [
+          {
+            "text": "Claims Team",
+            "bold": true
+          }
+        ]
+      }
+    ],
+    "rules": [
+      {
+        "id": "R1",
+        "source": "Use paragraph A if the claim was approved, or paragraph B if it was declined",
+        "interpretation": "Paragraph A is shown when the new boolean claimApproved is true and paragraph B otherwise; the A. and B. labels and the instruction itself are removed.",
+        "resolution": "conditional",
+        "confidence": 0.9
+      }
+    ]
+  },
+  "renders": [
+    {
+      "name": "All conditions true",
+      "data": {
+        "claimNumber": "100234567",
+        "date": "2026-12-01",
+        "customerFirstName": "Alex",
+        "lossType": "storm damage",
+        "lossDate": "2026-12-01",
+        "settlementAmount": 1250.5,
+        "excess": 70.5,
+        "declineReason": "the damage happened before the policy started",
+        "consultantName": "Sam Taylor",
+        "consultantPhone": "07 3000 0000",
+        "claimApproved": true
+      },
+      "html": "\u003Ch1 class=\u0022s-Heading1\u0022\u003EOutcome of your claim \u003Cspan class=\u0022v\u0022\u003E100234567\u003C/span\u003E\u003C/h1\u003E\u003Cp class=\u0022s-Normal\u0022\u003E\u003Cspan class=\u0022v\u0022\u003E1 December 2026\u003C/span\u003E\u003C/p\u003E\u003Cp class=\u0022s-Normal\u0022\u003EDear \u003Cspan class=\u0022v\u0022\u003EAlex\u003C/span\u003E,\u003C/p\u003E\u003Cp class=\u0022s-Normal\u0022\u003EWe have finished assessing your claim for \u003Cspan class=\u0022v\u0022\u003Estorm damage\u003C/span\u003E on \u003Cspan class=\u0022v\u0022\u003E1 December 2026\u003C/span\u003E.\u003C/p\u003E\u003Cp class=\u0022s-Normal\u0022\u003EWe are pleased to confirm your claim has been approved. We will pay $\u003Cspan class=\u0022v\u0022\u003E1,250.50\u003C/span\u003E to your nominated account within 5 business days, less your excess of $\u003Cspan class=\u0022v\u0022\u003E70.50\u003C/span\u003E.\u003C/p\u003E\u003Cp class=\u0022s-Normal\u0022\u003EYour claims consultant is \u003Cspan class=\u0022v\u0022\u003ESam Taylor\u003C/span\u003E, who you can reach on \u003Cspan class=\u0022v\u0022\u003E07 3000 0000\u003C/span\u003E.\u003C/p\u003E\u003Cp class=\u0022s-Normal\u0022\u003EYours sincerely,\u003C/p\u003E\u003Cp class=\u0022s-Normal\u0022\u003E\u003Cstrong\u003EClaims Team\u003C/strong\u003E\u003C/p\u003E"
+    },
+    {
+      "name": "All conditions false",
+      "data": {
+        "claimNumber": "100234567",
+        "date": "2026-12-01",
+        "customerFirstName": "Alex",
+        "lossType": "storm damage",
+        "lossDate": "2026-12-01",
+        "settlementAmount": 1250.5,
+        "excess": 70.5,
+        "declineReason": "the damage happened before the policy started",
+        "consultantName": "Sam Taylor",
+        "consultantPhone": "07 3000 0000",
+        "claimApproved": false
+      },
+      "html": "\u003Ch1 class=\u0022s-Heading1\u0022\u003EOutcome of your claim \u003Cspan class=\u0022v\u0022\u003E100234567\u003C/span\u003E\u003C/h1\u003E\u003Cp class=\u0022s-Normal\u0022\u003E\u003Cspan class=\u0022v\u0022\u003E1 December 2026\u003C/span\u003E\u003C/p\u003E\u003Cp class=\u0022s-Normal\u0022\u003EDear \u003Cspan class=\u0022v\u0022\u003EAlex\u003C/span\u003E,\u003C/p\u003E\u003Cp class=\u0022s-Normal\u0022\u003EWe have finished assessing your claim for \u003Cspan class=\u0022v\u0022\u003Estorm damage\u003C/span\u003E on \u003Cspan class=\u0022v\u0022\u003E1 December 2026\u003C/span\u003E.\u003C/p\u003E\u003Cp class=\u0022s-Normal\u0022\u003EUnfortunately we are unable to accept your claim. The reason is: \u003Cspan class=\u0022v\u0022\u003Ethe damage happened before the policy started\u003C/span\u003E. You can ask for a review of this decision within 30 days.\u003C/p\u003E\u003Cp class=\u0022s-Normal\u0022\u003EYour claims consultant is \u003Cspan class=\u0022v\u0022\u003ESam Taylor\u003C/span\u003E, who you can reach on \u003Cspan class=\u0022v\u0022\u003E07 3000 0000\u003C/span\u003E.\u003C/p\u003E\u003Cp class=\u0022s-Normal\u0022\u003EYours sincerely,\u003C/p\u003E\u003Cp class=\u0022s-Normal\u0022\u003E\u003Cstrong\u003EClaims Team\u003C/strong\u003E\u003C/p\u003E"
+    }
+  ],
+  "source": {
+    "file": "04-claim-outcome-letter.docx",
+    "format": "docx",
+    "page": {
+      "size": "A4",
+      "orientation": "portrait",
+      "marginsMm": {
+        "top": 25.4,
+        "right": 20,
+        "bottom": 25.4,
+        "left": 20
+      }
+    },
+    "styles": [
+      {
+        "id": "Normal",
+        "name": "Normal",
+        "basedOn": null,
+        "bold": false,
+        "italic": false,
+        "sizePt": 11
+      },
+      {
+        "id": "Heading1",
+        "name": "heading 1",
+        "basedOn": "Normal",
+        "bold": true,
+        "italic": false,
+        "sizePt": 16
+      },
+      {
+        "id": "Heading2",
+        "name": "heading 2",
+        "basedOn": "Normal",
+        "bold": true,
+        "italic": false,
+        "sizePt": 13
+      },
+      {
+        "id": "Address",
+        "name": "Address",
+        "basedOn": "Normal",
+        "bold": false,
+        "italic": false,
+        "sizePt": null
+      },
+      {
+        "id": "SmallPrint",
+        "name": "Small Print",
+        "basedOn": "Normal",
+        "bold": false,
+        "italic": true,
+        "sizePt": 8
+      }
+    ],
+    "header": [],
+    "body": [
+      {
+        "n": 1,
+        "type": "paragraph",
+        "style": "Heading1",
+        "inlines": [
+          {
+            "text": "Outcome of your claim "
+          },
+          {
+            "placeholder": "claim_number",
+            "raw": "{{claim_number}}",
+            "convention": "{{}}"
+          }
+        ]
+      },
+      {
+        "n": 2,
+        "type": "paragraph",
+        "style": "Normal",
+        "inlines": [
+          {
+            "placeholder": "DATE",
+            "raw": "[DATE]",
+            "convention": "[]"
+          }
+        ]
+      },
+      {
+        "n": 3,
+        "type": "paragraph",
+        "style": "Normal",
+        "inlines": [
+          {
+            "text": "Dear "
+          },
+          {
+            "placeholder": "Customer First Name",
+            "raw": "[Customer First Name]",
+            "convention": "[]"
+          },
+          {
+            "text": ","
+          }
+        ]
+      },
+      {
+        "n": 4,
+        "type": "paragraph",
+        "style": "Normal",
+        "inlines": [
+          {
+            "text": "We have finished assessing your claim for "
+          },
+          {
+            "placeholder": "loss_type",
+            "raw": "{{loss_type}}",
+            "convention": "{{}}"
+          },
+          {
+            "text": " on "
+          },
+          {
+            "placeholder": "loss_date",
+            "raw": "{{loss_date}}",
+            "convention": "{{}}"
+          },
+          {
+            "text": "."
+          }
+        ]
+      },
+      {
+        "n": 5,
+        "type": "paragraph",
+        "style": "Normal",
+        "inlines": [
+          {
+            "instruction": "Use paragraph A if the claim was approved, or paragraph B if it was declined"
+          }
+        ]
+      },
+      {
+        "n": 6,
+        "type": "paragraph",
+        "style": "Normal",
+        "inlines": [
+          {
+            "text": "A. We are pleased to confirm your claim has been approved. We will pay $"
+          },
+          {
+            "placeholder": "settlement_amount",
+            "raw": "{{settlement_amount}}",
+            "convention": "{{}}"
+          },
+          {
+            "text": " to your nominated account within 5 business days, less your excess of $"
+          },
+          {
+            "placeholder": "excess",
+            "raw": "{{excess}}",
+            "convention": "{{}}"
+          },
+          {
+            "text": "."
+          }
+        ]
+      },
+      {
+        "n": 7,
+        "type": "paragraph",
+        "style": "Normal",
+        "inlines": [
+          {
+            "text": "B. Unfortunately we are unable to accept your claim. The reason is: "
+          },
+          {
+            "placeholder": "decline_reason",
+            "raw": "{{decline_reason}}",
+            "convention": "{{}}"
+          },
+          {
+            "text": ". You can ask for a review of this decision within 30 days."
+          }
+        ]
+      },
+      {
+        "n": 8,
+        "type": "paragraph",
+        "style": "Normal",
+        "inlines": [
+          {
+            "text": "Your claims consultant is "
+          },
+          {
+            "placeholder": "Consultant Name",
+            "raw": "[Consultant Name]",
+            "convention": "[]"
+          },
+          {
+            "text": ", who you can reach on "
+          },
+          {
+            "placeholder": "Consultant Phone",
+            "raw": "[Consultant Phone]",
+            "convention": "[]"
+          },
+          {
+            "text": "."
+          }
+        ]
+      },
+      {
+        "n": 9,
+        "type": "paragraph",
+        "style": "Normal",
+        "inlines": [
+          {
+            "text": "Yours sincerely,"
+          }
+        ]
+      },
+      {
+        "n": 10,
+        "type": "paragraph",
+        "style": "Normal",
+        "inlines": [
+          {
+            "text": "Claims Team",
+            "bold": true
+          }
+        ]
+      }
+    ],
+    "footer": []
+  }
+}

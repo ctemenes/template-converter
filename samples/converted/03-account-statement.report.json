@@ -1,0 +1,676 @@
+{
+  "file": "03-account-statement.docx",
+  "status": "Converted",
+  "mapper": "llm:claude-sonnet-5-5",
+  "fidelity": 100,
+  "millis": 6093,
+  "error": null,
+  "scores": {
+    "wordsKept": 1,
+    "wordsNotInvented": 1,
+    "fieldsBound": 1,
+    "logicAccountedFor": 1,
+    "needsReview": 0
+  },
+  "findings": [],
+  "attempts": [
+    {
+      "number": 0,
+      "mapper": "rules",
+      "errors": 0,
+      "warnings": 0,
+      "fidelity": 100,
+      "millis": 11,
+      "inputTokens": null,
+      "outputTokens": null,
+      "errorMessages": []
+    },
+    {
+      "number": 1,
+      "mapper": "llm:claude-sonnet-5-5",
+      "errors": 0,
+      "warnings": 0,
+      "fidelity": 100,
+      "millis": 6076,
+      "inputTokens": 4162,
+      "outputTokens": 1241,
+      "errorMessages": []
+    }
+  ],
+  "counts": {
+    "variables": 8,
+    "rules": 0,
+    "blocks": 8
+  },
+  "template": {
+    "schemaVersion": "1.0",
+    "name": "03-account-statement",
+    "source": {
+      "file": "03-account-statement.docx",
+      "format": "docx"
+    },
+    "page": {
+      "size": "A4",
+      "orientation": "landscape",
+      "marginsMm": {
+        "top": 25.4,
+        "right": 20,
+        "bottom": 25.4,
+        "left": 20
+      }
+    },
+    "variables": [
+      {
+        "name": "periodStart",
+        "type": "date",
+        "sourceNames": [
+          "Period_Start"
+        ],
+        "format": "d MMM yyyy"
+      },
+      {
+        "name": "periodEnd",
+        "type": "date",
+        "sourceNames": [
+          "Period_End"
+        ],
+        "format": "d MMM yyyy"
+      },
+      {
+        "name": "accountNumber",
+        "type": "string",
+        "sourceNames": [
+          "Account_Number"
+        ]
+      },
+      {
+        "name": "accountName",
+        "type": "string",
+        "sourceNames": [
+          "Account_Name"
+        ]
+      },
+      {
+        "name": "transactions",
+        "type": "list",
+        "sourceNames": [
+          "Transactions"
+        ],
+        "fields": [
+          {
+            "name": "txnDate",
+            "type": "date",
+            "sourceNames": [
+              "Txn_Date"
+            ],
+            "format": "dd/MM/yyyy"
+          },
+          {
+            "name": "txnDescription",
+            "type": "string",
+            "sourceNames": [
+              "Txn_Description"
+            ]
+          },
+          {
+            "name": "txnAmount",
+            "type": "currency",
+            "sourceNames": [
+              "Txn_Amount"
+            ],
+            "format": "$#,##0.00"
+          }
+        ]
+      },
+      {
+        "name": "openingBalance",
+        "type": "currency",
+        "sourceNames": [
+          "Opening_Balance"
+        ],
+        "format": "$#,##0.00"
+      },
+      {
+        "name": "closingBalance",
+        "type": "currency",
+        "sourceNames": [
+          "Closing_Balance"
+        ],
+        "format": "$#,##0.00"
+      },
+      {
+        "name": "dueDate",
+        "type": "date",
+        "sourceNames": [
+          "Due_Date"
+        ]
+      }
+    ],
+    "header": [],
+    "footer": [
+      {
+        "text": "Northgate Energy. Page "
+      },
+      {
+        "sys": "pageNumber"
+      }
+    ],
+    "blocks": [
+      {
+        "type": "paragraph",
+        "style": "Heading1",
+        "content": [
+          {
+            "text": "Account statement"
+          }
+        ]
+      },
+      {
+        "type": "paragraph",
+        "style": "Normal",
+        "content": [
+          {
+            "text": "Statement period: "
+          },
+          {
+            "var": "periodStart",
+            "format": "d MMM yyyy"
+          },
+          {
+            "text": " to "
+          },
+          {
+            "var": "periodEnd",
+            "format": "d MMM yyyy"
+          }
+        ]
+      },
+      {
+        "type": "paragraph",
+        "style": "Normal",
+        "content": [
+          {
+            "text": "Account: ",
+            "bold": true
+          },
+          {
+            "var": "accountNumber"
+          }
+        ]
+      },
+      {
+        "type": "paragraph",
+        "style": "Normal",
+        "content": [
+          {
+            "text": "Name: ",
+            "bold": true
+          },
+          {
+            "var": "accountName"
+          }
+        ]
+      },
+      {
+        "type": "table",
+        "header": [
+          [
+            {
+              "text": "Date",
+              "bold": true
+            }
+          ],
+          [
+            {
+              "text": "Description",
+              "bold": true
+            }
+          ],
+          [
+            {
+              "text": "Amount",
+              "bold": true
+            }
+          ]
+        ],
+        "repeat": {
+          "over": "transactions",
+          "cells": [
+            [
+              {
+                "var": "transactions.txnDate",
+                "format": "dd/MM/yyyy"
+              }
+            ],
+            [
+              {
+                "var": "transactions.txnDescription"
+              }
+            ],
+            [
+              {
+                "var": "transactions.txnAmount",
+                "format": "$#,##0.00"
+              }
+            ]
+          ]
+        }
+      },
+      {
+        "type": "paragraph",
+        "style": "Normal",
+        "content": [
+          {
+            "text": "Opening balance: "
+          },
+          {
+            "var": "openingBalance",
+            "format": "$#,##0.00"
+          }
+        ]
+      },
+      {
+        "type": "paragraph",
+        "style": "Normal",
+        "content": [
+          {
+            "text": "Closing balance: "
+          },
+          {
+            "var": "closingBalance",
+            "format": "$#,##0.00"
+          }
+        ]
+      },
+      {
+        "type": "conditional",
+        "when": {
+          "var": "closingBalance",
+          "op": "gt",
+          "value": 0
+        },
+        "blocks": [
+          {
+            "type": "paragraph",
+            "style": "Normal",
+            "content": [
+              {
+                "text": "Please pay "
+              },
+              {
+                "var": "closingBalance"
+              },
+              {
+                "text": " by "
+              },
+              {
+                "var": "dueDate"
+              },
+              {
+                "text": "."
+              }
+            ]
+          }
+        ],
+        "else": [
+          {
+            "type": "paragraph",
+            "style": "Normal",
+            "content": [
+              {
+                "text": "Your account is in credit. No payment is needed."
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "rules": []
+  },
+  "renders": [
+    {
+      "name": "All conditions true",
+      "data": {
+        "periodStart": "2026-12-01",
+        "periodEnd": "2026-12-31",
+        "accountNumber": "100234567",
+        "accountName": "Alex Nguyen",
+        "transactions": [
+          {
+            "txnDate": "2026-12-01",
+            "txnDescription": "Usage charge",
+            "txnAmount": 1250.5
+          },
+          {
+            "txnDate": "2026-12-08",
+            "txnDescription": "Supply charge",
+            "txnAmount": 625.25
+          },
+          {
+            "txnDate": "2026-12-15",
+            "txnDescription": "Payment received",
+            "txnAmount": 416.83
+          }
+        ],
+        "openingBalance": 1250.5,
+        "closingBalance": 25,
+        "dueDate": "2026-12-15"
+      },
+      "html": "\u003Ch1 class=\u0022s-Heading1\u0022\u003EAccount statement\u003C/h1\u003E\u003Cp class=\u0022s-Normal\u0022\u003EStatement period: \u003Cspan class=\u0022v\u0022\u003E1 Dec 2026\u003C/span\u003E to \u003Cspan class=\u0022v\u0022\u003E31 Dec 2026\u003C/span\u003E\u003C/p\u003E\u003Cp class=\u0022s-Normal\u0022\u003E\u003Cstrong\u003EAccount: \u003C/strong\u003E\u003Cspan class=\u0022v\u0022\u003E100234567\u003C/span\u003E\u003C/p\u003E\u003Cp class=\u0022s-Normal\u0022\u003E\u003Cstrong\u003EName: \u003C/strong\u003E\u003Cspan class=\u0022v\u0022\u003EAlex Nguyen\u003C/span\u003E\u003C/p\u003E\u003Ctable\u003E\u003Ctr\u003E\u003Cth\u003E\u003Cstrong\u003EDate\u003C/strong\u003E\u003C/th\u003E\u003Cth\u003E\u003Cstrong\u003EDescription\u003C/strong\u003E\u003C/th\u003E\u003Cth\u003E\u003Cstrong\u003EAmount\u003C/strong\u003E\u003C/th\u003E\u003C/tr\u003E\u003Ctr\u003E\u003Ctd\u003E\u003Cspan class=\u0022v\u0022\u003E01/12/2026\u003C/span\u003E\u003C/td\u003E\u003Ctd\u003E\u003Cspan class=\u0022v\u0022\u003EUsage charge\u003C/span\u003E\u003C/td\u003E\u003Ctd\u003E\u003Cspan class=\u0022v\u0022\u003E$1,250.50\u003C/span\u003E\u003C/td\u003E\u003C/tr\u003E\u003Ctr\u003E\u003Ctd\u003E\u003Cspan class=\u0022v\u0022\u003E08/12/2026\u003C/span\u003E\u003C/td\u003E\u003Ctd\u003E\u003Cspan class=\u0022v\u0022\u003ESupply charge\u003C/span\u003E\u003C/td\u003E\u003Ctd\u003E\u003Cspan class=\u0022v\u0022\u003E$625.25\u003C/span\u003E\u003C/td\u003E\u003C/tr\u003E\u003Ctr\u003E\u003Ctd\u003E\u003Cspan class=\u0022v\u0022\u003E15/12/2026\u003C/span\u003E\u003C/td\u003E\u003Ctd\u003E\u003Cspan class=\u0022v\u0022\u003EPayment received\u003C/span\u003E\u003C/td\u003E\u003Ctd\u003E\u003Cspan class=\u0022v\u0022\u003E$416.83\u003C/span\u003E\u003C/td\u003E\u003C/tr\u003E\u003C/table\u003E\u003Cp class=\u0022s-Normal\u0022\u003EOpening balance: \u003Cspan class=\u0022v\u0022\u003E$1,250.50\u003C/span\u003E\u003C/p\u003E\u003Cp class=\u0022s-Normal\u0022\u003EClosing balance: \u003Cspan class=\u0022v\u0022\u003E$25.00\u003C/span\u003E\u003C/p\u003E\u003Cp class=\u0022s-Normal\u0022\u003EPlease pay \u003Cspan class=\u0022v\u0022\u003E$25.00\u003C/span\u003E by \u003Cspan class=\u0022v\u0022\u003E15 December 2026\u003C/span\u003E.\u003C/p\u003E\u003Cdiv class=\u0022ftr\u0022\u003ENorthgate Energy. Page 1\u003C/div\u003E"
+    },
+    {
+      "name": "All conditions false",
+      "data": {
+        "periodStart": "2026-12-01",
+        "periodEnd": "2026-12-31",
+        "accountNumber": "100234567",
+        "accountName": "Alex Nguyen",
+        "transactions": [
+          {
+            "txnDate": "2026-12-01",
+            "txnDescription": "Usage charge",
+            "txnAmount": 1250.5
+          },
+          {
+            "txnDate": "2026-12-08",
+            "txnDescription": "Supply charge",
+            "txnAmount": 625.25
+          },
+          {
+            "txnDate": "2026-12-15",
+            "txnDescription": "Payment received",
+            "txnAmount": 416.83
+          }
+        ],
+        "openingBalance": 1250.5,
+        "closingBalance": -25,
+        "dueDate": "2026-12-15"
+      },
+      "html": "\u003Ch1 class=\u0022s-Heading1\u0022\u003EAccount statement\u003C/h1\u003E\u003Cp class=\u0022s-Normal\u0022\u003EStatement period: \u003Cspan class=\u0022v\u0022\u003E1 Dec 2026\u003C/span\u003E to \u003Cspan class=\u0022v\u0022\u003E31 Dec 2026\u003C/span\u003E\u003C/p\u003E\u003Cp class=\u0022s-Normal\u0022\u003E\u003Cstrong\u003EAccount: \u003C/strong\u003E\u003Cspan class=\u0022v\u0022\u003E100234567\u003C/span\u003E\u003C/p\u003E\u003Cp class=\u0022s-Normal\u0022\u003E\u003Cstrong\u003EName: \u003C/strong\u003E\u003Cspan class=\u0022v\u0022\u003EAlex Nguyen\u003C/span\u003E\u003C/p\u003E\u003Ctable\u003E\u003Ctr\u003E\u003Cth\u003E\u003Cstrong\u003EDate\u003C/strong\u003E\u003C/th\u003E\u003Cth\u003E\u003Cstrong\u003EDescription\u003C/strong\u003E\u003C/th\u003E\u003Cth\u003E\u003Cstrong\u003EAmount\u003C/strong\u003E\u003C/th\u003E\u003C/tr\u003E\u003Ctr\u003E\u003Ctd\u003E\u003Cspan class=\u0022v\u0022\u003E01/12/2026\u003C/span\u003E\u003C/td\u003E\u003Ctd\u003E\u003Cspan class=\u0022v\u0022\u003EUsage charge\u003C/span\u003E\u003C/td\u003E\u003Ctd\u003E\u003Cspan class=\u0022v\u0022\u003E$1,250.50\u003C/span\u003E\u003C/td\u003E\u003C/tr\u003E\u003Ctr\u003E\u003Ctd\u003E\u003Cspan class=\u0022v\u0022\u003E08/12/2026\u003C/span\u003E\u003C/td\u003E\u003Ctd\u003E\u003Cspan class=\u0022v\u0022\u003ESupply charge\u003C/span\u003E\u003C/td\u003E\u003Ctd\u003E\u003Cspan class=\u0022v\u0022\u003E$625.25\u003C/span\u003E\u003C/td\u003E\u003C/tr\u003E\u003Ctr\u003E\u003Ctd\u003E\u003Cspan class=\u0022v\u0022\u003E15/12/2026\u003C/span\u003E\u003C/td\u003E\u003Ctd\u003E\u003Cspan class=\u0022v\u0022\u003EPayment received\u003C/span\u003E\u003C/td\u003E\u003Ctd\u003E\u003Cspan class=\u0022v\u0022\u003E$416.83\u003C/span\u003E\u003C/td\u003E\u003C/tr\u003E\u003C/table\u003E\u003Cp class=\u0022s-Normal\u0022\u003EOpening balance: \u003Cspan class=\u0022v\u0022\u003E$1,250.50\u003C/span\u003E\u003C/p\u003E\u003Cp class=\u0022s-Normal\u0022\u003EClosing balance: \u003Cspan class=\u0022v\u0022\u003E-$25.00\u003C/span\u003E\u003C/p\u003E\u003Cp class=\u0022s-Normal\u0022\u003EYour account is in credit. No payment is needed.\u003C/p\u003E\u003Cdiv class=\u0022ftr\u0022\u003ENorthgate Energy. Page 1\u003C/div\u003E"
+    }
+  ],
+  "source": {
+    "file": "03-account-statement.docx",
+    "format": "docx",
+    "page": {
+      "size": "A4",
+      "orientation": "landscape",
+      "marginsMm": {
+        "top": 25.4,
+        "right": 20,
+        "bottom": 25.4,
+        "left": 20
+      }
+    },
+    "styles": [
+      {
+        "id": "Normal",
+        "name": "Normal",
+        "basedOn": null,
+        "bold": false,
+        "italic": false,
+        "sizePt": 11
+      },
+      {
+        "id": "Heading1",
+        "name": "heading 1",
+        "basedOn": "Normal",
+        "bold": true,
+        "italic": false,
+        "sizePt": 16
+      },
+      {
+        "id": "Heading2",
+        "name": "heading 2",
+        "basedOn": "Normal",
+        "bold": true,
+        "italic": false,
+        "sizePt": 13
+      },
+      {
+        "id": "Address",
+        "name": "Address",
+        "basedOn": "Normal",
+        "bold": false,
+        "italic": false,
+        "sizePt": null
+      },
+      {
+        "id": "SmallPrint",
+        "name": "Small Print",
+        "basedOn": "Normal",
+        "bold": false,
+        "italic": true,
+        "sizePt": 8
+      }
+    ],
+    "header": [],
+    "body": [
+      {
+        "n": 1,
+        "type": "paragraph",
+        "style": "Heading1",
+        "inlines": [
+          {
+            "text": "Account statement"
+          }
+        ]
+      },
+      {
+        "n": 2,
+        "type": "paragraph",
+        "style": "Normal",
+        "inlines": [
+          {
+            "text": "Statement period: "
+          },
+          {
+            "mergeField": "Period_Start",
+            "format": "d MMM yyyy"
+          },
+          {
+            "text": " to "
+          },
+          {
+            "mergeField": "Period_End",
+            "format": "d MMM yyyy"
+          }
+        ]
+      },
+      {
+        "n": 3,
+        "type": "paragraph",
+        "style": "Normal",
+        "inlines": [
+          {
+            "text": "Account: ",
+            "bold": true
+          },
+          {
+            "mergeField": "Account_Number"
+          }
+        ]
+      },
+      {
+        "n": 4,
+        "type": "paragraph",
+        "style": "Normal",
+        "inlines": [
+          {
+            "text": "Name: ",
+            "bold": true
+          },
+          {
+            "mergeField": "Account_Name"
+          }
+        ]
+      },
+      {
+        "n": 5,
+        "type": "table",
+        "rows": [
+          [
+            [
+              {
+                "type": "paragraph",
+                "style": "Normal",
+                "inlines": [
+                  {
+                    "text": "Date",
+                    "bold": true
+                  }
+                ]
+              }
+            ],
+            [
+              {
+                "type": "paragraph",
+                "style": "Normal",
+                "inlines": [
+                  {
+                    "text": "Description",
+                    "bold": true
+                  }
+                ]
+              }
+            ],
+            [
+              {
+                "type": "paragraph",
+                "style": "Normal",
+                "inlines": [
+                  {
+                    "text": "Amount",
+                    "bold": true
+                  }
+                ]
+              }
+            ]
+          ],
+          [
+            [
+              {
+                "type": "paragraph",
+                "style": "Normal",
+                "inlines": [
+                  {
+                    "repeatStart": "Transactions"
+                  },
+                  {
+                    "mergeField": "Txn_Date",
+                    "format": "dd/MM/yyyy"
+                  }
+                ]
+              }
+            ],
+            [
+              {
+                "type": "paragraph",
+                "style": "Normal",
+                "inlines": [
+                  {
+                    "mergeField": "Txn_Description"
+                  }
+                ]
+              }
+            ],
+            [
+              {
+                "type": "paragraph",
+                "style": "Normal",
+                "inlines": [
+                  {
+                    "mergeField": "Txn_Amount",
+                    "format": "$#,##0.00"
+                  },
+                  {
+                    "repeatEnd": "Transactions"
+                  }
+                ]
+              }
+            ]
+          ]
+        ]
+      },
+      {
+        "n": 6,
+        "type": "paragraph",
+        "style": "Normal",
+        "inlines": [
+          {
+            "text": "Opening balance: "
+          },
+          {
+            "mergeField": "Opening_Balance",
+            "format": "$#,##0.00"
+          }
+        ]
+      },
+      {
+        "n": 7,
+        "type": "paragraph",
+        "style": "Normal",
+        "inlines": [
+          {
+            "text": "Closing balance: "
+          },
+          {
+            "mergeField": "Closing_Balance",
+            "format": "$#,##0.00"
+          }
+        ]
+      },
+      {
+        "n": 8,
+        "type": "paragraph",
+        "style": "Normal",
+        "inlines": [
+          {
+            "ifField": {
+              "left": "Closing_Balance",
+              "op": "\u003E",
+              "right": "0",
+              "whenTrue": [
+                {
+                  "text": "Please pay "
+                },
+                {
+                  "mergeField": "Closing_Balance"
+                },
+                {
+                  "text": " by "
+                },
+                {
+                  "mergeField": "Due_Date"
+                },
+                {
+                  "text": "."
+                }
+              ],
+              "whenFalse": [
+                {
+                  "text": "Your account is in credit. No payment is needed."
+                }
+              ]
+            }
+          }
+        ]
+      }
+    ],
+    "footer": [
+      {
+        "n": 1,
+        "type": "paragraph",
+        "style": "SmallPrint",
+        "inlines": [
+          {
+            "text": "Northgate Energy. Page "
+          },
+          {
+            "systemField": "PAGE"
+          }
+        ]
+      }
+    ]
+  }
+}
