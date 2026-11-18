@@ -3,7 +3,7 @@
   "status": "Needs review",
   "mapper": "llm:claude-sonnet-5-5",
   "fidelity": 100,
-  "millis": 4974,
+  "millis": 5010,
   "error": null,
   "scores": {
     "wordsKept": 1,
@@ -16,7 +16,7 @@
     {
       "severity": "warning",
       "check": "review",
-      "message": "A person needs to decide: \u0022Check with Legal which wording applies to grandfathered plans before sending\u0022. The reviewer must confirm with Legal what wording applies to grandfathered plans, and whether the letter needs extra or different text for them, and how to tell from the document that a plan is grandfathered; no wording is given in the source, so the text is left unconditional and the instruction is not printed."
+      "message": "A person needs to decide: \u0022Check with Legal which wording applies to grandfathered plans before sending\u0022. The reviewer must confirm with Legal what wording applies to grandfathered plans, whether any extra or alternative text is needed for them, and how a grandfathered plan is identified; the document has no such wording or indicator, so nothing was made conditional."
     }
   ],
   "attempts": [
@@ -37,9 +37,9 @@
       "errors": 0,
       "warnings": 1,
       "fidelity": 100,
-      "millis": 4972,
+      "millis": 5009,
       "inputTokens": 3390,
-      "outputTokens": 930,
+      "outputTokens": 919,
       "errorMessages": []
     }
   ],
@@ -219,7 +219,7 @@
       {
         "id": "R1",
         "source": "Check with Legal which wording applies to grandfathered plans before sending",
-        "interpretation": "The reviewer must confirm with Legal what wording applies to grandfathered plans, and whether the letter needs extra or different text for them, and how to tell from the document that a plan is grandfathered; no wording is given in the source, so the text is left unconditional and the instruction is not printed.",
+        "interpretation": "The reviewer must confirm with Legal what wording applies to grandfathered plans, whether any extra or alternative text is needed for them, and how a grandfathered plan is identified; the document has no such wording or indicator, so nothing was made conditional.",
         "resolution": "needs-review",
         "confidence": 0.9
       }

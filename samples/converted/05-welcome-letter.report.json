@@ -3,7 +3,7 @@
   "status": "Converted",
   "mapper": "llm:claude-sonnet-5-5",
   "fidelity": 100,
-  "millis": 8459,
+  "millis": 8153,
   "error": null,
   "scores": {
     "wordsKept": 1,
@@ -31,9 +31,9 @@
       "errors": 0,
       "warnings": 0,
       "fidelity": 100,
-      "millis": 8457,
+      "millis": 8151,
       "inputTokens": 4121,
-      "outputTokens": 1527,
+      "outputTokens": 1535,
       "errorMessages": []
     }
   ],

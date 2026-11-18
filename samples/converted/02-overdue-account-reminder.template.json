@@ -62,7 +62,7 @@
       "name": "daysOverdue",
       "type": "number",
       "sourceNames": [],
-      "description": "Number of days the account is overdue, counted from the due date to the date of the letter."
+      "description": "Number of days the account is overdue, i.e. the days from the due date to the letter date."
     },
     {
       "name": "onHardshipArrangement",
@@ -162,29 +162,29 @@
     {
       "type": "conditional",
       "when": {
-        "var": "daysOverdue",
-        "op": "gt",
-        "value": 60
+        "var": "onHardshipArrangement",
+        "op": "isTrue"
       },
       "blocks": [
         {
+          "type": "paragraph",
+          "style": "Normal",
+          "content": [
+            {
+              "text": "We know you have a payment arrangement with us. This letter is a reminder only."
+            }
+          ]
+        }
+      ],
+      "else": [
+        {
           "type": "conditional",
           "when": {
-            "var": "onHardshipArrangement",
-            "op": "isTrue"
+            "var": "daysOverdue",
+            "op": "gt",
+            "value": 60
           },
           "blocks": [
-            {
-              "type": "paragraph",
-              "style": "Normal",
-              "content": [
-                {
-                  "text": "We know you have a payment arrangement with us. This letter is a reminder only."
-                }
-              ]
-            }
-          ],
-          "else": [
             {
               "type": "paragraph",
               "style": "Normal",
@@ -231,16 +231,16 @@
     {
       "id": "R1",
       "source": "Include the next paragraph only if the account is more than 60 days overdue",
-      "interpretation": "The collections paragraph is wrapped in a condition that daysOverdue is greater than 60, using a new daysOverdue variable.",
+      "interpretation": "The collections paragraph is wrapped in a condition that shows it only when the new daysOverdue variable is greater than 60.",
       "resolution": "conditional",
-      "confidence": 0.9
+      "confidence": 0.85
     },
     {
       "id": "R2",
       "source": "If the customer is on a hardship arrangement, delete the paragraph above and insert: We know you have a payment arrangement with us. This letter is a reminder only.",
-      "interpretation": "Where the collections paragraph would appear (over 60 days overdue), a new onHardshipArrangement flag swaps it for the reminder-only wording; it is not shown for accounts 60 days or less overdue because there is no paragraph to replace.",
+      "interpretation": "When the new onHardshipArrangement flag is true the collections paragraph is replaced by the reminder-only wording, otherwise the 60-day rule decides whether the collections paragraph appears.",
       "resolution": "conditional",
-      "confidence": 0.75
+      "confidence": 0.8
     }
   ]
 }

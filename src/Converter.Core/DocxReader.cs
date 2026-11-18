@@ -29,6 +29,7 @@ public static class DocxReader
         var body = doc.Root?.Element(W + "body")
                    ?? throw new InvalidDataException("The document has no body.");
 
+        NoteUnreadContent(doc, warnings);
         var rels = LoadRelationships(zip);
         var sect = body.Elements(W + "sectPr").LastOrDefault()
                    ?? body.Descendants(W + "sectPr").LastOrDefault();
@@ -43,6 +44,29 @@ public static class DocxReader
             Footer = ReadLinkedPart(zip, rels, sect, "footerReference", warnings),
             ReaderWarnings = warnings
         };
+    }
+
+    /// <summary>
+    /// The reader does not convert everything Word can hold. Where a file contains something it skips,
+    /// it says so, and the pipeline sends that template to a person. Skipping silently would let the
+    /// wording check pass on a document with a paragraph missing.
+    /// </summary>
+    private static void NoteUnreadContent(XDocument doc, List<string> warnings)
+    {
+        var root = doc.Root!;
+        if (root.Descendants(W + "txbxContent").Any())
+            warnings.Add("The file has text boxes. Text inside them was not converted.");
+        if (root.Descendants(W + "footnoteReference").Any() || root.Descendants(W + "endnoteReference").Any())
+            warnings.Add("The file has footnotes or endnotes. They were not converted.");
+        if (root.Descendants(W + "tc").Any(cell => cell.Elements(W + "tbl").Any()))
+            warnings.Add("The file has a table nested inside another table. The inner table was not converted.");
+        if (root.Descendants(W + "drawing").Any() || root.Descendants(W + "pict").Any())
+            warnings.Add("The file has images or drawings. They were not converted.");
+        if (root.Descendants(W + "headerReference").Concat(root.Descendants(W + "footerReference"))
+            .Any(r => (string?)r.Attribute(W + "type") is "first" or "even"))
+            warnings.Add("The file has a different first-page or even-page header or footer. Only the default one was converted.");
+        if (root.Descendants(W + "del").Any())
+            warnings.Add("The file has tracked deletions. Accept or reject changes before converting.");
     }
 
     // ---- parts ------------------------------------------------------------

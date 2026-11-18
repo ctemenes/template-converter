@@ -18,7 +18,10 @@ direct debit". Those notes are business rules, and they only exist as English.
 
 So the work is split by who is good at what:
 
-1. **Code reads the file.** An exact structural read, with nothing guessed.
+1. **Code reads the file.** A structural read of what is physically in it. The one judgement it makes is
+   whether bracketed text is a placeholder or a note to the writer, using a simple rule. Where the file
+   holds something the reader does not convert (text boxes, footnotes, nested tables, images), it says
+   so and the template goes to a person.
 2. **Rules convert what is unambiguous.** Real fields, IF fields, repeating rows.
 3. **The model converts what is not.** It reads the written instructions and turns them into
    conditions, works out that `[Customer First Name]` and `{{first_name}}` are the same value, and
@@ -53,13 +56,14 @@ legacy .docx
 | --- | --- |
 | Structure | The template does not follow the target format, or uses a variable it never declared |
 | Fields | A field in the source is not bound to a variable, or the variable is never used |
-| Logic | An IF field has no matching condition, a repeating row has no repeat, or a written instruction is not accounted for |
-| Leftovers | Placeholder syntax or an instruction to the writer would be printed to the customer |
-| Wording | Source words are missing from the output, or the output contains words that were never in the source |
-| Render | The template cannot produce a document from sample data down both sides of every condition |
+| Logic | An IF field has no condition on the same variable, a repeating row has no repeat, or a written instruction has no rule recorded against it |
+| Leftovers | A typed placeholder or an instruction to the writer would be printed to the customer |
+| Wording | Any word is printed that is not in the source text or in one of its instructions, or more than 5% of the source words are missing. Fewer missing words are listed in the report for a person to read |
+| Render | The template throws, or leaves a value unresolved, when rendered with sample data: all conditions true, all false, and each of the first eight conditions true on its own |
 
-Each result gets a fidelity score built from those checks, and a report listing every attempt, every
-finding and every rule the model inferred, with its confidence.
+Each result gets a score out of 100 from four ratios: source words kept, words not invented, fields
+bound and logic accounted for. It measures content, not how the page looks. The report lists every
+attempt, every finding and every rule the model inferred, with the model's own confidence.
 
 ## The sample set
 
@@ -103,9 +107,9 @@ What the model did that rules could not:
   answer.
 
 Read these numbers for what they are. Six small templates I wrote myself, where the model passed every
-check on its first attempt, in two runs out of two. The whole batch used about 24,000 input and 9,000
+check on its first attempt, in three runs out of three. The whole batch used about 24,000 input and 9,000
 output tokens and took under 20 seconds at three at a time. The repair loop did not have to fire on this
-set, so it is covered by tests that use a scripted stand-in for the model. Real legacy templates will be
+set, so it is covered only by tests that use a scripted stand-in for the model. Real legacy templates will be
 messier than these.
 
 ![Before and after: the legacy template on the left, the converted template rendered on the right](docs/before-after.png)
@@ -137,6 +141,8 @@ HTTP API:
 | Call | Does |
 | --- | --- |
 | `POST /api/convert` | Converts the .docx in the request body. `X-File-Name` header carries its name |
+| `POST /api/convert/sample/{name}` | Converts one of the bundled samples |
+| `GET /api/info` | Mode (rules or model) and the list of samples |
 | `POST /api/batch/samples` | Starts a batch over the sample set and returns a job id |
 | `GET /api/jobs/{id}` | Batch progress |
 | `GET /api/results/{name}` | Full result: source read, template, checks, attempts, renders |
@@ -159,10 +165,24 @@ HTTP API:
   knows about the source format: everything after it works on the intermediate read.
 - **The target format is a stand-in.** It is mine, not a real platform's. Pointing this at a real schema
   means changing the mapper prompt, the structure checks and the renderer.
-- **The wording check compares words, not layout.** It proves nothing was lost or invented. It does not
-  prove the page looks the same. A real migration would add a visual comparison of rendered output.
-- **The Azure Functions project has not been deployed.** It builds, and it shares the engine with the
-  API and the command line, but it has only been exercised through those two.
+- **The checks compare the output with what the reader extracted.** If the reader misses something and
+  does not flag it, the checks cannot see it either.
+- **The wording check counts words.** It ignores word order and layout. It shows no word was invented and
+  lists any that were dropped. It does not show the page looks the same. A real migration would add an
+  in-order text comparison and a visual comparison of rendered output.
+- **The logic check counts conditions. It does not prove they mean the same thing.** An IF field must
+  have a condition on the same variable, but the operator, the value and which text sits in which branch
+  are not compared. The rendered branches are there so a person can.
+- **Rules the model infers from written instructions are not held for sign-off.** Samples 02, 04 and 05
+  are marked converted on the model's reading of an English sentence. The model's confidence is recorded
+  but nothing gates on it. For regulated documents every inferred rule should go to a reviewer with both
+  branches side by side.
+- **The samples were written by a script, not saved from Word.** Files from Word split text into runs
+  unpredictably and carry revision marks and bookmarks. A typed placeholder split across runs with
+  different formatting will be missed, and a field that spans paragraphs is reported but not converted.
+- **Package versions in the Functions project float** (`1.*`, `6.*`). They should be pinned.
+- **The Azure Functions project has never run.** It compiles in CI and calls the same engine as the API
+  and the command line, but it has not been run locally against a storage emulator or deployed.
 - **Batch state is in memory.** A SQL job table is the obvious next step.
 
 ## About

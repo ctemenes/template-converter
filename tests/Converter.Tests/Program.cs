@@ -120,6 +120,21 @@ await Test("validator catches an unbound field, invented words and a printed ins
     Check(v.Errors.Any(e => e.Check == "wording"), "invented words not caught");
     return Task.CompletedTask;
 });
+await Test("validator fails on a single invented word and on a typed placeholder left as text", () =>
+{
+    var src = Read("04-claim-outcome-letter.docx");
+    var t = new RuleMapper().Map(src);
+    var para = t["blocks"]!.AsArray().First(b => b!["type"]!.ToString() == "paragraph")!["content"]!.AsArray();
+    para.Add(new JsonObject { ["text"] = " Kindly" });
+    var v = Validator.Validate(src, t);
+    Check(v.Errors.Any(e => e.Check == "wording" && e.Message.Contains("kindly")), "one invented word should fail the template");
+
+    var t2 = new RuleMapper().Map(src);
+    var para2 = t2["blocks"]!.AsArray().First(b => b!["type"]!.ToString() == "paragraph")!["content"]!.AsArray();
+    para2.Add(new JsonObject { ["text"] = "[Consultant Name]" });
+    Check(Validator.Validate(src, t2).Errors.Any(e => e.Check == "leftovers"), "a square-bracket placeholder left as text should fail");
+    return Task.CompletedTask;
+});
 await Test("validator catches an undeclared variable and a missing condition", () =>
 {
     var src = Read("01-policy-renewal-notice.docx");
@@ -195,9 +210,10 @@ await Test("if the model never passes, the rule-based result stands", async () =
 });
 await Test("if the model call fails, the rule-based result stands", async () =>
 {
-    var fake = new ScriptedMapper((src, draft) => throw new InvalidOperationException("Model call failed (529)"));
-    var r = await new ConversionPipeline(fake, maxAttempts: 1).ConvertAsync("01-policy-renewal-notice.docx", Sample("01-policy-renewal-notice.docx"));
+    var fake = new ScriptedMapper((src, draft) => throw new ModelUnavailableException("Model call failed (529)"));
+    var r = await new ConversionPipeline(fake, maxAttempts: 3).ConvertAsync("01-policy-renewal-notice.docx", Sample("01-policy-renewal-notice.docx"));
     Check(r.Status == "Converted" && r.Mapper == "rules", $"{r.Status} {r.Mapper}");
+    Check(fake.Calls == 1, "an outage should stop the attempts, not be sent back to the model as a wrong answer");
 });
 await Test("JSON is pulled out of a reply wrapped in prose or code fences", () =>
 {

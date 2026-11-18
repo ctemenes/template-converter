@@ -245,7 +245,7 @@
     {
       "id": "R1",
       "source": "Use paragraph A if the claim was approved, or paragraph B if it was declined",
-      "interpretation": "Paragraph A is shown when the new boolean claimApproved is true and paragraph B otherwise; the A. and B. labels and the instruction itself are removed.",
+      "interpretation": "Paragraph A is shown when the new boolean claimApproved is true and paragraph B otherwise; the instruction and the A./B. labels are removed.",
       "resolution": "conditional",
       "confidence": 0.9
     }

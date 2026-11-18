@@ -240,6 +240,9 @@ public static class Renderer
 /// <summary>Builds believable sample data for a template, with one variant per side of its conditions.</summary>
 public static class SampleData
 {
+    /// <summary>How many conditions get a render of their own. Past this, only all-true and all-false are added.</summary>
+    public const int MaxSingleConditionVariants = 8;
+
     public static List<RenderVariant> Variants(JsonObject template)
     {
         var conditions = new List<JsonObject>();
@@ -258,7 +261,7 @@ public static class SampleData
         variants.Add(("All conditions true", allTrue));
         if (conditions.Count > 1)
         {
-            foreach (var only in conditions.Take(4))
+            foreach (var only in conditions.Take(MaxSingleConditionVariants))
             {
                 var data = Base(template);
                 foreach (var c in conditions) Apply(c, data, false);

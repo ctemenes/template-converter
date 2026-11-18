@@ -16,6 +16,9 @@ public static class Validator
     private static readonly HashSet<string> Sys = new() { "pageNumber", "pageCount", "today" };
     private static readonly HashSet<string> Resolutions = new() { "conditional", "repeat", "removed", "needs-review" };
     private static readonly Regex PlaceholderSyntax = new(@"<<[^<>]+>>|«[^«»]+»|\{\{[^{}]+\}\}|MERGEFIELD", RegexOptions.Compiled);
+    /// <summary>Share of source words that may be absent before the wording check fails.</summary>
+    public const double MaxMissingShare = 0.05;
+
     private static readonly Regex Word = new(@"[A-Za-z0-9]+(?:[.'/][A-Za-z0-9]+)*", RegexOptions.Compiled);
 
     public static ValidationResult Validate(SourceTemplate src, JsonObject template)
@@ -122,8 +125,13 @@ public static class Validator
         result.LogicCoverage = logicTotal == 0 ? 1 : (double)logicDone / logicTotal;
 
         // ---- 4. nothing meant for the writer is printed ----------------------
+        var typedPlaceholders = src.AllInlines().Where(i => i.Kind == InlineKind.Placeholder)
+            .Select(i => i.Text).Distinct().ToList();
         foreach (var text in walk.Texts)
         {
+            foreach (var raw in typedPlaceholders)
+                if (text.Contains(raw, StringComparison.OrdinalIgnoreCase))
+                    Err(result, "leftovers", $"The typed placeholder {raw} is still printed as text. Replace it with a {{\"var\": ...}} item.");
             if (PlaceholderSyntax.IsMatch(text))
                 Err(result, "leftovers", $"Placeholder syntax left in printed text: \"{Trim(text)}\". Replace it with a {{\"var\": ...}} item.");
             foreach (var instruction in instructions)
@@ -143,16 +151,18 @@ public static class Validator
         result.WordRecall = sourceCount == 0 ? 1 : 1 - (double)missing.Values.Sum() / sourceCount;
         result.WordPrecision = outputCount == 0 ? 1 : 1 - (double)invented.Values.Sum() / outputCount;
 
-        if (result.WordRecall < 0.9)
+        // Missing words: an instruction can legitimately remove a few (a paragraph label, a replaced
+        // sentence), so up to MaxMissingShare is reported for a person to read and anything more fails.
+        if (result.WordRecall < 1 - MaxMissingShare)
             Err(result, "wording", $"{missing.Values.Sum()} of {sourceCount} source words are missing from the template: {Listing(missing)}. Keep the source wording exactly.");
         else if (missing.Count > 0)
-            result.Findings.Add(new Finding(result.WordRecall < 0.97 ? Severity.Warning : Severity.Info, "wording",
+            result.Findings.Add(new Finding(Severity.Info, "wording",
                 $"Source words not carried into the template: {Listing(missing)}."));
 
-        if (result.WordPrecision < 0.95)
+        // Invented words: no tolerance. Every word printed must come from the source text or from an
+        // instruction in the source.
+        if (invented.Count > 0)
             Err(result, "wording", $"The template contains words that are not in the source: {Listing(invented)}. Do not add or reword text.");
-        else if (invented.Count > 0)
-            result.Findings.Add(new Finding(Severity.Warning, "wording", $"Words in the template that are not in the source: {Listing(invented)}."));
 
         // ---- 6. reader warnings are carried through ---------------------------
         foreach (var w in src.ReaderWarnings)

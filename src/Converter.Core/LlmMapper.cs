@@ -7,6 +7,9 @@ namespace Converter.Core;
 
 public sealed record MapResult(JsonObject Template, int? InputTokens, int? OutputTokens);
 
+/// <summary>The model could not be reached or refused the call. Not something a repair prompt can fix.</summary>
+public sealed class ModelUnavailableException(string message) : Exception(message);
+
 public interface ITemplateMapper
 {
     string Name { get; }
@@ -27,6 +30,8 @@ public interface ITemplateMapper
 /// </summary>
 public sealed class LlmMapper : ITemplateMapper
 {
+    private const int MaxTransportAttempts = 4;
+    private static readonly TimeSpan MaxBackoff = TimeSpan.FromSeconds(30);
     private readonly HttpClient _http;
     private readonly string _model;
     public string Name => "llm:" + _model;
@@ -63,11 +68,23 @@ public sealed class LlmMapper : ITemplateMapper
             ["messages"] = new JsonArray(new JsonObject { ["role"] = "user", ["content"] = Prompts.User(source, draft, previous, errors) })
         };
 
-        using var response = await _http.PostAsync("v1/messages",
-            new StringContent(request.ToJsonString(), Encoding.UTF8, "application/json"), ct);
-        var body = await response.Content.ReadAsStringAsync(ct);
-        if (!response.IsSuccessStatusCode)
-            throw new InvalidOperationException($"Model call failed ({(int)response.StatusCode}): {Shorten(body)}");
+        var payload = request.ToJsonString();
+        var body = "";
+        for (var attempt = 1; ; attempt++)
+        {
+            using var response = await _http.PostAsync("v1/messages",
+                new StringContent(payload, Encoding.UTF8, "application/json"), ct);
+            body = await response.Content.ReadAsStringAsync(ct);
+            if (response.IsSuccessStatusCode) break;
+
+            // Rate limited or overloaded: wait and try again. Anything else will not get better by waiting.
+            var status = (int)response.StatusCode;
+            var busy = status is 429 or 500 or 502 or 503 or 529;
+            if (!busy || attempt >= MaxTransportAttempts)
+                throw new ModelUnavailableException($"Model call failed ({status}): {Shorten(body)}");
+            var wait = response.Headers.RetryAfter?.Delta ?? TimeSpan.FromSeconds(Math.Pow(2, attempt));
+            await Task.Delay(wait > MaxBackoff ? MaxBackoff : wait, ct);
+        }
 
         var json = JsonNode.Parse(body) ?? throw new InvalidOperationException("Empty model response.");
         var text = string.Concat((json["content"] as JsonArray ?? new JsonArray())

@@ -61,6 +61,16 @@ public sealed class ConversionPipeline
                     previous = mapped.Template;
                     errors = validation.Errors.Select(e => e.Message).ToList();
                 }
+                catch (ModelUnavailableException ex)
+                {
+                    // The model is down or refusing calls. Record it and keep the best result so far.
+                    result.Attempts.Add(new Attempt
+                    {
+                        Number = attempt, Mapper = _llm.Name, Errors = 1, Millis = stepClock.ElapsedMilliseconds,
+                        ErrorMessages = { ex.Message }
+                    });
+                    break;
+                }
                 catch (Exception ex) when (ex is not OperationCanceledException)
                 {
                     result.Attempts.Add(new Attempt

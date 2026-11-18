@@ -3,7 +3,7 @@
   "status": "Converted",
   "mapper": "llm:claude-sonnet-5-5",
   "fidelity": 98.9,
-  "millis": 8927,
+  "millis": 7923,
   "error": null,
   "scores": {
     "wordsKept": 0.9737,
@@ -26,7 +26,7 @@
       "errors": 0,
       "warnings": 1,
       "fidelity": 100,
-      "millis": 1,
+      "millis": 0,
       "inputTokens": null,
       "outputTokens": null,
       "errorMessages": []
@@ -37,9 +37,9 @@
       "errors": 0,
       "warnings": 0,
       "fidelity": 98.9,
-      "millis": 8925,
+      "millis": 7921,
       "inputTokens": 4007,
-      "outputTokens": 1557,
+      "outputTokens": 1503,
       "errorMessages": []
     }
   ],
@@ -295,7 +295,7 @@
       {
         "id": "R1",
         "source": "Use paragraph A if the claim was approved, or paragraph B if it was declined",
-        "interpretation": "Paragraph A is shown when the new boolean claimApproved is true and paragraph B otherwise; the A. and B. labels and the instruction itself are removed.",
+        "interpretation": "Paragraph A is shown when the new boolean claimApproved is true and paragraph B otherwise; the instruction and the A./B. labels are removed.",
         "resolution": "conditional",
         "confidence": 0.9
       }

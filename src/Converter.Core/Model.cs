@@ -4,8 +4,8 @@ namespace Converter.Core;
 
 // ---------------------------------------------------------------------------
 // Intermediate representation of a legacy template.
-// The reader turns a source file into this. Nothing in here is guessed:
-// it only records what is physically in the file.
+// The reader turns a source file into this. It records what is physically in the
+// file. Its one judgement is sorting bracketed text into placeholder or instruction.
 // ---------------------------------------------------------------------------
 
 public enum InlineKind
