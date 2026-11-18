@@ -9,6 +9,8 @@ Anything that needs a person's judgement goes to a review list instead of being 
 
 Written in C# on .NET 8. The engine has no third-party packages.
 
+**Demo video (2 min 40 s):** https://youtu.be/UbYlOUQUepk
+
 ## Why it is built this way
 
 Converting a template is mostly easy and occasionally very hard. Merge fields and IF fields are
